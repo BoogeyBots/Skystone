@@ -37,12 +37,11 @@ class PIDController
             if (maximumInput > minimumInput) {
                 if (setpoint < 0) sign = -1
 
-                if (Math.abs(setpoint) > maximumInput)
-                    field = maximumInput * sign
-                else if (Math.abs(setpoint) < minimumInput)
-                    field = minimumInput * sign
-                else
-                    field = setpoint
+                field = when {
+                    abs(setpoint) > maximumInput -> maximumInput * sign
+                    abs(setpoint) < minimumInput -> minimumInput * sign
+                    else -> setpoint
+                }
             } else
                 field = setpoint
         }

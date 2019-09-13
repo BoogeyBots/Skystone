@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.ClassFactory
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector
 
 class CameraModule(override val hardwareMap: HardwareMap, val telemetry: Telemetry) : RobotModule {
@@ -12,25 +13,7 @@ class CameraModule(override val hardwareMap: HardwareMap, val telemetry: Telemet
     lateinit var tfod: TFObjectDetector
     lateinit var localizer: VuforiaLocalizer
 
-    fun tensorflowScan() {
-        // getUpdatedRecognitions() will return null if no new information is available since
-        // the last time that call was made.
-        val updatedRecognitions = tfod.updatedRecognitions
-        if (updatedRecognitions != null) {
-            telemetry.addData("# Object Detected", updatedRecognitions.size)
-
-            // step through the list of recognitions and display boundary info.
-            val i = 0
-            for (recognition in updatedRecognitions) {
-                telemetry.addData(String.format("label (%Kd)", i), recognition.label)
-                telemetry.addData(String.format("  left,top (%Kd)", i), "%.03f , %.03f",
-                        recognition.left, recognition.top)
-                telemetry.addData(String.format("  right,bottom (%Kd)", i), "%.03f , %.03f",
-                        recognition.right, recognition.bottom)
-            }
-            telemetry.update()
-        }
-    }
+    fun tensorflowScan(): Iterable<Recognition> = tfod.updatedRecognitions ?: emptyList()
 
     fun tensorflowStart() {
         initVuforia()
@@ -44,11 +27,9 @@ class CameraModule(override val hardwareMap: HardwareMap, val telemetry: Telemet
         tfod.activate()
     }
 
-    fun tensorflowStop() {
-        tfod.shutdown()
-    }
+    fun tensorflowStop() = tfod.shutdown()
 
-    fun initVuforia() {
+    private fun initVuforia() {
         val parameters = VuforiaLocalizer.Parameters()
         parameters.vuforiaLicenseKey = VUFORIA_KEY
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK
@@ -56,7 +37,7 @@ class CameraModule(override val hardwareMap: HardwareMap, val telemetry: Telemet
         localizer = ClassFactory.getInstance().createVuforia(parameters)
     }
 
-    fun initTfod() {
+    private fun initTfod() {
         val tfodMonitorViewId = hardwareMap.appContext.resources.getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.packageName)
         val tfodParameters = TFObjectDetector.Parameters(tfodMonitorViewId)
@@ -65,8 +46,8 @@ class CameraModule(override val hardwareMap: HardwareMap, val telemetry: Telemet
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT)
     }
 
-    companion object {
-        const val VUFORIA_KEY = " -- YOUR NEW VUFORIA KEY GOES HERE  --- "
+    private companion object {
+        const val VUFORIA_KEY = "AWo7bzb/////AAABmcbdWZ79Y049lfMcsRS8waNYev8AbC1EwUWqhJnr1poItrv7+etQ1bwW4BiQpg151evO66Pzt3L2LvfbBgzn4aQ3QzVBXYQBjqMScjg/gQEj0g3ldi/0ENHSKwnT48YDxtQQb5/twpwjew9wlaSkZuZ8KtZGwOZHh7vhV0xQmjh1akuPF0zmKvCn5HPnd/O9YxXR5Ef7eyQ+r15XMT7Vd7kG/PUbpCvkexwsRZ4BKGv+oV1ZWOqrYrP5WKbpzHmEOl8RggfJKD707G2Q61vTUW+MEksQwrydbwTCqzTxDUTWdOlgzG9JfGjS+jUdQ3CAN+EETNZDOQs8fIxn3Q+Bdmi823AJLEU3GDhptc7KHcjo"
         const val TFOD_MODEL_ASSET = "Skystone.tflite"
         const val LABEL_FIRST_ELEMENT = "Stone"
         const val LABEL_SECOND_ELEMENT = "Skystone"
