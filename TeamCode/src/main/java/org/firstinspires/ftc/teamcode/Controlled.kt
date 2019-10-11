@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
+import org.firstinspires.ftc.teamcode.opmode.BBOpModeBase
 import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "Controlled", group = "SkyStone")
@@ -11,6 +13,8 @@ class Controlled : BBOpMode() {
     override val robot = Robot(this)
 
     override fun init() {
+        robot.init()
+
         get<Camera>().init()
         get<DriveTrain>().init()
     }

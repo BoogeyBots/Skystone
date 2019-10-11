@@ -6,12 +6,12 @@ import com.qualcomm.robotcore.hardware.HardwareDevice
 import com.qualcomm.robotcore.hardware.HardwareMap
 
 class DriveTrainModule(override val hardwareMap: HardwareMap) : RobotModule {
-    override lateinit var components: HashMap<String, HardwareDevice>
+    override var components: HashMap<String, HardwareDevice> = hashMapOf()
     val motors get() = components.map { it.value as DcMotor }
+    val names = listOf("lf", "rf", "lb", "rb")
 
     override fun init() {
-        listOf("lf", "rf", "lb", "rb")
-                .forEach { name -> components[name] = hardwareMap.get(DcMotor::class.java, name) }
+        names.forEach { name -> components[name] = hardwareMap.get(DcMotor::class.java, name) }
 
         components
                 .map { Pair(it.key, it.value as DcMotor) }
@@ -22,7 +22,7 @@ class DriveTrainModule(override val hardwareMap: HardwareMap) : RobotModule {
                 }
     }
 
-    public fun moveForward(power: Double) {
+    fun moveForward(power: Double) {
         components.map { it.value as DcMotor }.forEach { it.power = power }
     }
 

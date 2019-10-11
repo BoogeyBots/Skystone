@@ -10,11 +10,15 @@ typealias DriveTrain = DriveTrainModule
 typealias Camera = CameraModule
 
 class Robot(val opMode: OpMode) {
-    var modules: Set<RobotModule> = setOf(
-            CameraModule(opMode.hardwareMap, opMode.telemetry),
-            DriveTrainModule(opMode.hardwareMap),
-            GyroModule(opMode.hardwareMap)
-    )
+    lateinit var modules: Set<RobotModule>
+
+    fun init() {
+        modules = setOf(
+                CameraModule(opMode.hardwareMap, opMode.telemetry),
+                DriveTrainModule(opMode.hardwareMap),
+                GyroModule(opMode.hardwareMap)
+        )
+    }
 
     inline fun <reified T: RobotModule> get(): T = modules.first { x -> x is T } as T
 }
