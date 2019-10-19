@@ -17,6 +17,7 @@ class Controlled : BBOpMode() {
 
         get<Camera>().init()
         get<DriveTrain>().init()
+        get<DriveTrain>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
     }
 
     override fun loop() {
@@ -28,16 +29,16 @@ class Controlled : BBOpMode() {
                 Pair(it.key, it.value as DcMotor)
             }
             .forEach { (name, motor) ->
-                motor.power = Range.clip((-gamepad1.left_trigger) +
+                motor.power = Range.clip((-gamepad1.left_trigger) + gamepad1.right_trigger +
                     when (name) {
                         "lf" -> {
-                            (-gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
+                            (gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
                         }
                         "rf" -> {
                             (gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
                         }
                         "lb" -> {
-                            (gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
+                            (-gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
                         }
                         "rb" -> {
                             (-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
@@ -46,5 +47,9 @@ class Controlled : BBOpMode() {
                     },
                 -1.0, 1.0)
             }
+
+        get<DriveTrain>().components.forEach {
+            telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
+        }
     }
 }
