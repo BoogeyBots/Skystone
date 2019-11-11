@@ -8,11 +8,9 @@ import org.firstinspires.ftc.teamcode.opmode.get
 
 @Autonomous(name = "Test Tensorflow", group = "TEST")
 class TestTensorflow : BBLinearOpMode() {
-	override val robot = Robot(this)
+	override val robot = Robot(this, setOf(Camera(this)))
 
 	override fun runOpMode() {
-		robot.init()
-
 		get<Camera>().init()
 		get<Camera>().start()
 

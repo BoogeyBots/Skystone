@@ -23,8 +23,10 @@ class CameraModule(override val opMode: OpMode) : RobotModule {
         if (!started) {
             tensorflowStart()
         }
-        val recogs = tensorflowScan(time)
-        val indexedValue = recogs.sortedBy { it.left }.withIndex().firstOrNull { it.value.label == LABEL_SKYSTONE }
+        val indexedValue = tfod.updatedRecognitions
+            .sortedBy { it.left }
+            .withIndex()
+            .firstOrNull { it.value.label == LABEL_SKYSTONE }
         return (indexedValue?.index ?: 2)
     }
 
@@ -35,8 +37,6 @@ class CameraModule(override val opMode: OpMode) : RobotModule {
     override fun start() {
         tensorflowStart()
     }
-
-    fun tensorflowScan(time: Double): Iterable<Recognition> = tfod.updatedRecognitions
 
     fun tensorflowStart() {
         started = true

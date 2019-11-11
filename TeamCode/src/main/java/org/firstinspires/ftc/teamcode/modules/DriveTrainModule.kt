@@ -1,96 +1,13 @@
 package org.firstinspires.ftc.teamcode.modules
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode
-import com.qualcomm.robotcore.hardware.*
-import com.qualcomm.robotcore.util.ElapsedTime
-import kotlin.math.PI
-import kotlin.math.abs
+import com.qualcomm.robotcore.hardware.DcMotorEx
 
-class DriveTrainModule(override val opMode: OpMode) : RobotModule {
-    override var components: HashMap<String, HardwareDevice> = hashMapOf()
-    val motors get() = components.filter { it.value is DcMotorEx }.map { it.value as DcMotorEx }
-    val motorsWithNames = components.map { Pair(it.key, it.value as DcMotorEx) }.toMap()
+abstract class DriveTrainModule : RobotModule {
+	val motors get() = components.filter { it is DcMotorEx }.map { it as DcMotorEx }.toList()
+	val motorsWithNames get() = components.map { Pair(it.key, it.value as DcMotorEx) }.toMap()
 
-    override fun init() {
-        listOf("lf", "rf", "lb", "rb")
-            .forEach { name -> components[name] = hardwareMap.get(DcMotorEx::class.java, name) }
-
-        motorsWithNames
-            .forEach { (name, motor) ->
-                motor.power = 0.0
-                motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
-                when (name) { "rf", "rb" -> motor.direction = DcMotorSimple.Direction.REVERSE }
-            }
-    }
-
-    override fun stop() {
-        motors.forEach {
-            it.power = 0.0
-            it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-        }
-    }
-
-    private fun encoderDrive(inches: Double, power: Double, timeout: Double) {
-        val newTarget = (inches * COUNTS_PER_INCH).toInt()
-        val stopwatch = ElapsedTime()
-
-        motors.forEach {
-            it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-            it.targetPosition = newTarget
-            it.mode = DcMotor.RunMode.RUN_TO_POSITION
-            it.power = abs(power)
-        }
-
-        while (linearOpMode.opModeIsActive() &&
-            stopwatch.seconds() < timeout &&
-            motors.all { it.isBusy }) {
-            // telemetry
-        }
-
-        stop()
-    }
-
-    fun forward(inches: Double, power: Double, timeout: Double) {
-        get<DcMotorEx>("lf").direction = DcMotorSimple.Direction.FORWARD
-        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.REVERSE
-        get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.FORWARD
-        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
-        encoderDrive(power, inches, timeout)
-    }
-
-    fun sideways(inches: Double, power: Double, timeout: Double) {
-        get<DcMotorEx>("lf").direction = DcMotorSimple.Direction.FORWARD
-        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.FORWARD
-        get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.REVERSE
-        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
-        encoderDrive(power, inches, timeout)
-    }
-
-    fun rotate(degress: Double, power: Double, timeout: Double) {
-        val newTarget = ((degress * MAGIC_VALUE) / 360 * COUNTS_PER_INCH).toInt()
-        val stopwatch = ElapsedTime()
-
-        motors.forEach {
-            it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-            it.targetPosition = newTarget
-            it.mode = DcMotor.RunMode.RUN_TO_POSITION
-            it.power = abs(power)
-        }
-
-        while (linearOpMode.opModeIsActive() &&
-            stopwatch.seconds() < timeout &&
-            motors.all { it.isBusy }) {
-            // telemetry?
-        }
-
-        stop()
-    }
-
-    companion object {
-        const val COUNTS_PER_MOTOR_REV = 383.6
-        const val WHEEL_DIAMETER = 4.0 // in inches
-        const val DRIVE_GEAR_REDUCTION = 2.0
-        const val COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION / (WHEEL_DIAMETER * PI)
-        const val MAGIC_VALUE = 92.2
-    }
+	abstract fun encoderDrive(inches: Double, power: Double, timeout: Double)
+	abstract fun forward(inches: Double, power: Double, timeout: Double)
+	abstract fun sideways(inches: Double, power: Double, timeout: Double)
+	abstract fun rotate(degrees: Double, power: Double, timeout: Double)
 }

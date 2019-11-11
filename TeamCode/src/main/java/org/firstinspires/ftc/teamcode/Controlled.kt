@@ -1,33 +1,26 @@
 package org.firstinspires.ftc.teamcode
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
-import org.firstinspires.ftc.teamcode.opmode.BBOpModeBase
 import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "Controlled", group = "SkyStone")
 class Controlled : BBOpMode() {
-    override val robot = Robot(this)
+    override val robot = Robot(this, setOf(Mecanum(this), Camera(this)))
 
     override fun init() {
-        robot.init()
-
         get<Camera>().init()
-        get<DriveTrain>().init()
-        get<DriveTrain>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
+        get<Mecanum>().init()
+        get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
     }
 
     override fun loop() {
-        get<DriveTrain>().stop()
+        get<Mecanum>().stop()
 
-        get<DriveTrain>().components
-            .filter { it.value is DcMotor }
-            .map {
-                Pair(it.key, it.value as DcMotor)
-            }
+        get<Mecanum>()
+            .motorsWithNames
             .forEach { (name, motor) ->
                 motor.power = Range.clip((-gamepad1.left_trigger) + gamepad1.right_trigger +
                     when (name) {
@@ -35,20 +28,20 @@ class Controlled : BBOpMode() {
                             (gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
                         }
                         "rf" -> {
-                            (gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+                            (-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
                         }
                         "lb" -> {
                             (-gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
                         }
                         "rb" -> {
-                            (-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+                            (gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
                         }
                         else -> 0.0
                     },
                 -1.0, 1.0)
             }
 
-        get<DriveTrain>().components.forEach {
+        get<Mecanum>().motorsWithNames.forEach {
             telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
         }
     }
