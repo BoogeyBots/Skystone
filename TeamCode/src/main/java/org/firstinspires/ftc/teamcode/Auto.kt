@@ -13,15 +13,11 @@ class Auto : BBLinearOpMode() {
         robot.init()
 
         get<DriveTrain>().init()
-        get<Camera>().init()
 
         waitForStart()
 
-        get<DriveTrain>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
-        get<DriveTrain>().advance(0.5)
-
-        @Suppress("ControlFlowWithEmptyBody")
-        while (opModeIsActive()) {}
+        get<DriveTrain>().forward(24.0, 0.5, 3.0)
+        get<DriveTrain>().forward(-24.0, 0.5, 3.0)
 
         get<DriveTrain>().stop()
     }

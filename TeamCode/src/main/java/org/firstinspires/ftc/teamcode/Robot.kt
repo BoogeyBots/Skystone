@@ -14,9 +14,9 @@ class Robot(val opMode: OpMode) {
 
     fun init() {
         modules = setOf(
-                CameraModule(opMode.hardwareMap, opMode.telemetry),
-                DriveTrainModule(opMode.hardwareMap),
-                GyroModule(opMode.hardwareMap)
+            CameraModule(opMode),
+            DriveTrainModule(opMode),
+            GyroModule(opMode)
         )
     }
 
