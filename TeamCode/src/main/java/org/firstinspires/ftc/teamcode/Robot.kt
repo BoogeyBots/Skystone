@@ -8,6 +8,7 @@ import kotlin.reflect.jvm.kotlinFunction
 typealias Mecanum = MecanumDriveTrainModule
 typealias Camera = CameraModule
 typealias Hook = HookModule
+typealias Arm = ArmModule
 
 class Robot(val opMode: OpMode, val modules: Set<RobotModule>) {
     inline fun <reified T: RobotModule> get(): T = modules.first { x -> x is T } as T

@@ -9,16 +9,27 @@ import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "Controlled", group = "SkyStone")
 class Controlled : BBOpMode() {
-    override val robot = Robot(this, setOf(Mecanum(this), Camera(this), Hook(this)))
+    override val robot = Robot(this, setOf(Mecanum(this), Hook(this), Arm(this)))
+	var maxSpeed = 1.0
+	var speedModifier = 0.00001
 
     override fun init() {
-        get<Camera>().init()
         get<Mecanum>().init()
 		get<Hook>().init()
+	    get<Arm>().init()
     }
 
     override fun loop() {
         get<Mecanum>().stop()
+
+	    when {
+		    gamepad2.b -> get<Hook>().grab()
+		    gamepad2.x -> get<Hook>().ungrab()
+		    gamepad2.y -> get<Arm>().grab()
+		    gamepad2.a -> get<Arm>().ungrab()
+		    gamepad1.dpad_up -> maxSpeed = Range.clip(-1.0, 1.0, maxSpeed + speedModifier)
+		    gamepad1.dpad_down -> maxSpeed = Range.clip(-1.0, 1.0, maxSpeed - speedModifier)
+	    }
 
         get<Mecanum>()
             .motorsWithNames
@@ -39,16 +50,14 @@ class Controlled : BBOpMode() {
                         }
                         else -> 0.0
                     },
-                -1.0, 1.0)
+                -maxSpeed, maxSpeed)
             }
 
-	    when {
-		    gamepad2.b -> get<Hook>().grab()
-		    gamepad2.x -> get<Hook>().ungrab()
-	    }
+	    get<Arm>().move(-gamepad2.left_stick_y.toDouble())
 
         get<Mecanum>().motorsWithNames.forEach {
             telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
         }
+	    telemetry.addData("ARM", get<Arm>().get<DcMotor>("marm").power)
     }
 }
