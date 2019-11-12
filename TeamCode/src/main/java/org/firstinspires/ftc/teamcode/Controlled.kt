@@ -3,17 +3,18 @@ package org.firstinspires.ftc.teamcode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.Range
+import org.firstinspires.ftc.teamcode.modules.HookModule
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "Controlled", group = "SkyStone")
 class Controlled : BBOpMode() {
-    override val robot = Robot(this, setOf(Mecanum(this), Camera(this)))
+    override val robot = Robot(this, setOf(Mecanum(this), Camera(this), Hook(this)))
 
     override fun init() {
         get<Camera>().init()
         get<Mecanum>().init()
-        get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
+		get<Hook>().init()
     }
 
     override fun loop() {
@@ -40,6 +41,11 @@ class Controlled : BBOpMode() {
                     },
                 -1.0, 1.0)
             }
+
+	    when {
+		    gamepad2.b -> get<Hook>().grab()
+		    gamepad2.x -> get<Hook>().ungrab()
+	    }
 
         get<Mecanum>().motorsWithNames.forEach {
             telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
