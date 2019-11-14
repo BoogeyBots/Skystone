@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.opmode.get
 class Controlled : BBOpMode() {
     override val robot = Robot(this, setOf(Mecanum(this), Hook(this), Arm(this)))
 	var maxSpeed = 1.0
-	var speedModifier = 0.00001
+	var speedModifier = 0.0005
 
     override fun init() {
         get<Mecanum>().init()
@@ -27,11 +27,17 @@ class Controlled : BBOpMode() {
 		    gamepad2.x -> get<Hook>().ungrab()
 		    gamepad2.y -> get<Arm>().grab()
 		    gamepad2.a -> get<Arm>().ungrab()
-		    gamepad1.dpad_up -> maxSpeed = Range.clip(-1.0, 1.0, maxSpeed + speedModifier)
-		    gamepad1.dpad_down -> maxSpeed = Range.clip(-1.0, 1.0, maxSpeed - speedModifier)
 	    }
 
-        get<Mecanum>()
+	    if (gamepad1.dpad_up) {
+		    maxSpeed += speedModifier
+	    } else if (gamepad1.dpad_down) {
+		    maxSpeed -= speedModifier
+	    }
+
+	    maxSpeed = Range.clip(maxSpeed, 0.0, 1.0)
+
+	    get<Mecanum>()
             .motorsWithNames
             .forEach { (name, motor) ->
                 motor.power = Range.clip((-gamepad1.left_trigger) + gamepad1.right_trigger +
@@ -59,5 +65,8 @@ class Controlled : BBOpMode() {
             telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
         }
 	    telemetry.addData("ARM", get<Arm>().get<DcMotor>("marm").power)
+	    telemetry.addData("maxSpeed", maxSpeed)
+	    telemetry.addData("targetArm", get<Arm>().marm.targetPosition)
+	    telemetry.addData("currentArm", get<Arm>().marm.currentPosition)
     }
 }

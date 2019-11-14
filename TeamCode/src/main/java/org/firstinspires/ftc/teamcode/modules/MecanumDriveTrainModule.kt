@@ -32,20 +32,18 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
         val newTarget = (inches * COUNTS_PER_INCH).toInt()
         val stopwatch = ElapsedTime()
 
-        motors.forEach {
-            it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-            it.targetPosition = newTarget
-            it.mode = DcMotor.RunMode.RUN_TO_POSITION
-            it.power = abs(power)
-        }
+	    motors.forEach { it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER }
+	    motors.forEach { it.targetPosition = newTarget }
+	    motors.forEach { it.mode = DcMotor.RunMode.RUN_TO_POSITION }
+	    motors.forEach { it.power = abs(power) }
 
         while (linearOpMode.opModeIsActive() &&
             stopwatch.seconds() < timeout &&
             motors.all { it.isBusy }) {
             motorsWithNames.forEach {
-                telemetry.addData(it.key, "${it.value.currentPosition} - ${it.value.targetPosition}")
-                telemetry.update()
+                telemetry.addData(it.key, "${it.value.currentPosition} ->> ${it.value.targetPosition}")
             }
+	        telemetry.update()
         }
 
         stop()
@@ -56,7 +54,7 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
         get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.REVERSE
         get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.FORWARD
         get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
-        encoderDrive(power, inches, timeout)
+        encoderDrive(inches, power, timeout)
     }
 
     override fun sideways(inches: Double, power: Double, timeout: Double) {
@@ -64,19 +62,18 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
         get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.FORWARD
         get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.REVERSE
         get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
-        encoderDrive(power, inches, timeout)
+        encoderDrive(inches, power, timeout)
     }
 
     override fun rotate(degrees: Double, power: Double, timeout: Double) {
         val newTarget = ((degrees * MAGIC_VALUE) / 360 * COUNTS_PER_INCH).toInt()
         val stopwatch = ElapsedTime()
 
-        motors.forEach {
-            it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-            it.targetPosition = newTarget
-            it.mode = DcMotor.RunMode.RUN_TO_POSITION
-            it.power = abs(power)
-        }
+	    motors.forEach { it.direction = DcMotorSimple.Direction.FORWARD }
+        motors.forEach { it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER }
+        motors.forEach { it.targetPosition = newTarget }
+        motors.forEach { it.mode = DcMotor.RunMode.RUN_TO_POSITION }
+        motors.forEach { it.power = abs(power) }
 
         while (linearOpMode.opModeIsActive() &&
             stopwatch.seconds() < timeout &&
@@ -92,6 +89,6 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
         const val WHEEL_DIAMETER = 4.0 // in inches
         const val DRIVE_GEAR_REDUCTION = 2.0
         const val COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION / (WHEEL_DIAMETER * PI)
-        const val MAGIC_VALUE = 92.2
+        const val MAGIC_VALUE = 92.5
     }
 }
