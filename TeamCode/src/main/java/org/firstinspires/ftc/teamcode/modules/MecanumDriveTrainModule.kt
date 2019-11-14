@@ -90,5 +90,6 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
         const val DRIVE_GEAR_REDUCTION = 2.0
         const val COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION / (WHEEL_DIAMETER * PI)
         const val MAGIC_VALUE = 92.5
+	    const val DEFAULT_POWER = 0.5
     }
 }

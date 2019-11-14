@@ -21,6 +21,8 @@ class Controlled : BBOpMode() {
 
     override fun loop() {
         get<Mecanum>().stop()
+	    get<Mecanum>().motors.forEach { it.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER }
+	    get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
 
 	    when {
 		    gamepad2.b -> get<Hook>().grab()

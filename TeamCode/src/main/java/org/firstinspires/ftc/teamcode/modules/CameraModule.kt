@@ -19,7 +19,7 @@ class CameraModule(override val opMode: OpMode) : RobotModule {
      * If none of them is a skystone, the third one is.
      * @return the index of the SkyStone (0 to 2)
      */
-    fun getSkystoneIndex(time: Double): Int {
+    fun getSkystoneIndex(): Int {
         if (!started) {
             tensorflowStart()
         }

@@ -15,13 +15,6 @@ class ArmModule(override val opMode: OpMode) : RobotModule {
 		components["marm"] = hardwareMap.get(DcMotorEx::class.java, "marm")
 
 		marm.direction = DcMotorSimple.Direction.REVERSE
-
-		marm.setVelocityPIDFCoefficients(1.0, 1.5, 1.5, 10.0)
-		marm.targetPositionTolerance = 5
-		marm.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-		marm.targetPosition = 0
-		marm.mode = DcMotor.RunMode.RUN_TO_POSITION
-		marm.power = 0.5
 	}
 
 	fun grab() {
@@ -33,16 +26,15 @@ class ArmModule(override val opMode: OpMode) : RobotModule {
 	}
 
 	fun move(factor: Double) {
-		marm.targetPosition = Range.clip(marm.targetPosition + factor * COUNTS_PER_DEGREE, 0.0, MAX_TARGET_POS).toInt()
+		marm.power = Range.clip(factor * MARM_FINUȚ, -0.5, 0.5)
 	}
 
 	companion object {
 		const val SARM_GRAB_POS = 0.4
 		const val SARM_UNGRAB_POS = 0.7
-		const val MARM_FINUȚ = 0.35
+		const val MARM_FINUȚ = 0.5
 		const val COUNTS_PER_MOTOR_REV = 1120.0
 		const val DRIVE_GEAR_REDUCTION = 1.0
 		const val COUNTS_PER_DEGREE = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / 360
-		const val MAX_TARGET_POS = COUNTS_PER_DEGREE * 65
 	}
 }
