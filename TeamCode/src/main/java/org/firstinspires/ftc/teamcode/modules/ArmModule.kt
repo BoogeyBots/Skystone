@@ -31,7 +31,7 @@ class ArmModule(override val opMode: OpMode) : RobotModule {
 
 	companion object {
 		const val SARM_GRAB_POS = 0.4
-		const val SARM_UNGRAB_POS = 0.7
+		const val SARM_UNGRAB_POS = 0.775
 		const val MARM_FINUȚ = 0.5
 		const val COUNTS_PER_MOTOR_REV = 1120.0
 		const val DRIVE_GEAR_REDUCTION = 1.0

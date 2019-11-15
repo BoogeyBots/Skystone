@@ -6,6 +6,7 @@ import kotlin.reflect.KParameter
 import kotlin.reflect.jvm.kotlinFunction
 
 typealias Mecanum = MecanumDriveTrainModule
+typealias Holonomic = HolonomicDriveTrainModule
 typealias Camera = CameraModule
 typealias Hook = HookModule
 typealias Arm = ArmModule

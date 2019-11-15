@@ -15,17 +15,12 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 
         motorsWithNames
             .forEach { (name, motor) ->
-                motor.power = 0.0
-                motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
                 when (name) { "rf", "rb" -> motor.direction = DcMotorSimple.Direction.REVERSE }
             }
     }
 
     override fun stop() {
-        motors.forEach {
-            it.power = 0.0
-            it.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-        }
+        motors.forEach { it.power = 0.0 }
     }
 
     override fun encoderDrive(inches: Double, power: Double, timeout: Double) {

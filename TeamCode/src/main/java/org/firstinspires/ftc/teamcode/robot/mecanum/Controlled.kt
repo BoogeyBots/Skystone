@@ -1,13 +1,16 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.robot.mecanum
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.Range
-import org.firstinspires.ftc.teamcode.modules.HookModule
+import org.firstinspires.ftc.teamcode.Arm
+import org.firstinspires.ftc.teamcode.Hook
+import org.firstinspires.ftc.teamcode.Mecanum
+import org.firstinspires.ftc.teamcode.Robot
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
-@TeleOp(name = "Controlled", group = "SkyStone")
+@TeleOp(name = "MECANUM: CONTROLLED", group = "SKYSTONE MECANUM")
 class Controlled : BBOpMode() {
     override val robot = Robot(this, setOf(Mecanum(this), Hook(this), Arm(this)))
 	var maxSpeed = 1.0
@@ -17,13 +20,10 @@ class Controlled : BBOpMode() {
         get<Mecanum>().init()
 		get<Hook>().init()
 	    get<Arm>().init()
+	    get<Mecanum>().motors.forEach { it.mode = DcMotor.RunMode.RUN_USING_ENCODER }
     }
 
     override fun loop() {
-        get<Mecanum>().stop()
-	    get<Mecanum>().motors.forEach { it.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER }
-	    get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
-
 	    when {
 		    gamepad2.b -> get<Hook>().grab()
 		    gamepad2.x -> get<Hook>().ungrab()
@@ -39,27 +39,25 @@ class Controlled : BBOpMode() {
 
 	    maxSpeed = Range.clip(maxSpeed, 0.0, 1.0)
 
-	    get<Mecanum>()
-            .motorsWithNames
-            .forEach { (name, motor) ->
-                motor.power = Range.clip((-gamepad1.left_trigger) + gamepad1.right_trigger +
-                    when (name) {
-                        "lf" -> {
-                            (gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
-                        }
-                        "rf" -> {
-                            (-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
-                        }
-                        "lb" -> {
-                            (-gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
-                        }
-                        "rb" -> {
-                            (gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
-                        }
-                        else -> 0.0
-                    },
-                -maxSpeed, maxSpeed)
-            }
+	    get<Mecanum>().motorsWithNames.forEach { (name, motor) ->
+            motor.power = Range.clip((-gamepad1.left_trigger) + gamepad1.right_trigger +
+                when (name) {
+                    "lf" -> {
+                        (gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
+                    }
+                    "rf" -> {
+                        (-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+                    }
+                    "lb" -> {
+                        (-gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
+                    }
+                    "rb" -> {
+                        (gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+                    }
+                    else -> 0.0
+                },
+            -maxSpeed, maxSpeed)
+        }
 
 	    get<Arm>().move(-gamepad2.left_stick_y.toDouble())
 

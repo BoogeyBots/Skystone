@@ -65,7 +65,7 @@ class CameraModule(override val opMode: OpMode) : RobotModule {
         val tfodMonitorViewId = hardwareMap.appContext.resources.getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.packageName)
         val tfodParameters = TFObjectDetector.Parameters(tfodMonitorViewId)
-        tfodParameters.minimumConfidence = 0.8
+        tfodParameters.minimumConfidence = 0.5
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, localizer)
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_STONE, LABEL_SKYSTONE)
     }
