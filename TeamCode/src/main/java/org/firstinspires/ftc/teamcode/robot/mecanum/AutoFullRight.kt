@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.*
 import org.firstinspires.ftc.teamcode.opmode.BBLinearOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
+import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 
 @Autonomous(name = "MECANUM: AUTO FULL RIGHT", group = "SKYSTONE MECANUM")
 class AutoFullRight : BBLinearOpMode() {
@@ -16,7 +17,7 @@ class AutoFullRight : BBLinearOpMode() {
 	    get<Arm>().init()
 
 	    // PRESS START
-        waitForStart()
+        waitForStartFixed()
 
 	    get<Camera>().start()
 
