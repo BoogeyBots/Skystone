@@ -15,12 +15,12 @@ class HookModule(override val opMode: OpMode) : RobotModule {
 	}
 
 	fun grab() {
-		get<Servo>("lshook").position = 0.865
+		get<Servo>("lshook").position = 0.88
 		get<Servo>("rshook").position = 0.00
 	}
 
 	fun ungrab() {
-		get<Servo>("lshook").position = 0.1
-		get<Servo>("rshook").position = 0.9
+		get<Servo>("lshook").position = 0.15
+		get<Servo>("rshook").position = 0.85
 	}
 }

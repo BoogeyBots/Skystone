@@ -40,7 +40,7 @@ class Controlled : BBOpMode() {
 	    maxSpeed = Range.clip(maxSpeed, 0.0, 1.0)
 
 	    get<Mecanum>().motorsWithNames.forEach { (name, motor) ->
-            motor.power = Range.clip((-gamepad1.left_trigger) + gamepad1.right_trigger +
+            motor.power = Range.clip((gamepad1.left_trigger) - gamepad1.right_trigger +
                 when (name) {
                     "lf" -> {
                         (gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
