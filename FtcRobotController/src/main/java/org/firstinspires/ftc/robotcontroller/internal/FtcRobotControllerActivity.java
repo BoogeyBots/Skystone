@@ -663,8 +663,10 @@ public class FtcRobotControllerActivity extends Activity
       @Override
       public EventLoopManager getEventLoopManager() {
         return service.getRobot().eventLoopManager;
+
       }
     });
+
   }
 
   private void updateUIAndRequestRobotSetup() {
@@ -704,6 +706,7 @@ public class FtcRobotControllerActivity extends Activity
 
     passReceivedUsbAttachmentsToEventLoop();
     AndroidBoard.showErrorIfUnknownControlHub();
+
   }
 
   protected OpModeRegister createOpModeRegister() {
