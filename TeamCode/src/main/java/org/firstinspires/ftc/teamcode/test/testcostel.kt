@@ -9,27 +9,25 @@ import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "TEST COSTEL" , group = "TEST")
 class TestCostel : BBOpMode() {
-	override val robot: Robot = Robot(this, setOf(TestModule(this)))
-	lateinit var motor1: DcMotorEx
-	lateinit var motor2: DcMotorEx
+    override val robot: Robot = Robot(this, setOf(TestModule(this)))
+    lateinit var motor1: DcMotorEx
+    lateinit var motor2: DcMotorEx
 
-	override fun init() {
-		motor1 = hardwareMap.get(DcMotorEx::class.java, "costel1")
-		motor2 = hardwareMap.get(DcMotorEx::class.java, "costel2")
-	}
+    override fun init() {
+        motor1 = hardwareMap.get(DcMotorEx::class.java, "costel1")
+        motor2 = hardwareMap.get(DcMotorEx::class.java, "costel2")
 
-	override fun loop() {
-		if (gamepad1.dpad_up) {
-			motor1.power = 1.0
-			motor2.power = -1.0
-		}
-		if (gamepad1.dpad_down) {
-			motor1.power = -1.0
-			motor2.power = 1.0
-		}
-		else {
-			motor1.power = 0.0
-			motor2.power = 0.0
-		}
-	}
+
+    }
+
+    override fun loop() {
+        if (gamepad1.dpad_up) {
+            motor1.power = 1.0
+            motor2.power = -1.0
+        }
+        if (gamepad1.dpad_down) {
+            motor1.power = -1.0
+            motor2.power = 1.0
+        }
+    }
 }
