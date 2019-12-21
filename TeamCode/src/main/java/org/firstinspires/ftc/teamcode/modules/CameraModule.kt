@@ -27,7 +27,7 @@ class CameraModule(override val opMode: OpMode) : RobotModule {
             .sortedBy { it.left }
             .withIndex()
             .firstOrNull { it.value.label == LABEL_SKYSTONE }
-        return (indexedValue?.index ?: 2)
+        return (indexedValue?.index ?:2)
     }
 
     override fun stop() {
