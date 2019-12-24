@@ -22,18 +22,21 @@ class AutoTestSenzori : BBLinearOpMode() {
 
         waitForStartFixed()
 
-        if(sau == "skystone")
+        if( IsSkystone() == "skystone")
             get<Arm>().grab()
         TODO("NU E TERMINAT")
 
     }
 
-    fun IsSkystone() {
+
+
+    fun IsSkystone(): String {
 
         if(color.frac() > 2 && distance.getDistance() < 4.5 && color.frac() < 5) sau = "stone"
         else if (color.frac() <= 1 && distance.getDistance() < 4.5) sau = "skystone"
         else if (distance.getDistance() > 4.5) sau = "apropie te"
         else sau = "nu e skystone"
+        return sau
 
     }
 }
