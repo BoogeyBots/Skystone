@@ -34,7 +34,11 @@ class TestColorAndDistanceSensor : BBOpMode() {
 		telemetry.addData("ID", String.format("%x", sensorTimeOfFlight!!.modelID))
 		telemetry.addData("did time out", java.lang.Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()))
 
-		if(sensorRange!!.getDistance(DistanceUnit.INCH) < )
+		/*if(sensorRange!!.getDistance(DistanceUnit.INCH) < 12 && sensorRange!!.getDistance(DistanceUnit.INCH) > 4)
+		{
+			if()
+		}
+		*/
 
 		telemetry.update()
 	}
