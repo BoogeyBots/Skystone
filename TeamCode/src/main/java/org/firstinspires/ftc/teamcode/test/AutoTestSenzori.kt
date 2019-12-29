@@ -28,7 +28,7 @@ class AutoTestSenzori : BBLinearOpMode() {
 
     }
 
-
+    
 
     fun IsSkystone(): String {
 
