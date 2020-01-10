@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.robot.mecanum
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.*
 import org.firstinspires.ftc.teamcode.opmode.BBLinearOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 
 @Autonomous(name = "MECANUM: AUTO FULL LEFT", group = "SKYSTONE MECANUM")
+@Disabled
 class AutoFullLeft : BBLinearOpMode() {
 	override val robot = Robot(this, setOf(Mecanum(this), Camera(this), Arm(this), Hook(this)))
 

@@ -15,16 +15,19 @@ class AutoTestSenzori : BBLinearOpMode() {
     val distance = get<DistanceSensorModule>()
     var sau = ""
     override fun runOpMode() {
-        get<Mecanum>().init()
+        //get<Mecanum>().init()
         get<ColorSensorModule>().init()
-        get<Arm>().init()
+        //get<Arm>().init()
         get<DistanceSensorModule>().init()
 
-        waitForStartFixed()
 
         if( IsSkystone() == "skystone")
-            get<Arm>().grab()
-        TODO("NU E TERMINAT")
+
+
+        telemetry.addData("COLOR", "R:  ${color.frac()} | STONE: ${sau} : DIST: ${distance.getDistance()}")
+
+        telemetry.update()
+
 
     }
 

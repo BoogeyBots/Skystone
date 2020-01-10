@@ -10,9 +10,10 @@ data class RGBAColor(val r: Int, val g: Int, val b: Int, val a: Int)
 
 class ColorSensorModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
-	val sensor get() = get<ColorSensor>("color")
-	val color get() = RGB()
-	var frac = (color.g * color.g ) / (color.b * color.b)
+	private val sensor get() = get<ColorSensor>("color")
+	private val color get() = RGB()
+	private var frac = (color.g * color.g ) / (color.b * color.b)
+
 
 	override fun init() {
 		components["color"] = hardwareMap.get(ColorSensor::class.java, "color")
@@ -26,5 +27,14 @@ class ColorSensorModule(override val opMode: OpMode) : RobotModule {
 
 	fun frac(): Int {
 		return frac
+	}
+	fun IsSkystone(): String {
+		var sau = ""
+
+		if(frac() > 2 && frac() < 5) sau = "stone"
+		else if (frac() <= 1 ) sau = "skystone"
+
+		return sau
+
 	}
 }

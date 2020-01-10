@@ -79,6 +79,12 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
         stop()
     }
 
+    fun forwardUntil(power: Double, predicate: () -> Boolean) {
+        while (!predicate()) {
+            motors.forEach { it.power = power }
+        }
+    }
+
     companion object {
         const val COUNTS_PER_MOTOR_REV = 383.6
         const val WHEEL_DIAMETER = 4.0 // in inches

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot.mecanum
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.Range
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "MECANUM: CONTROLLED", group = "SKYSTONE MECANUM")
+@Disabled
 class Controlled : BBOpMode() {
     override val robot = Robot(this, setOf(Mecanum(this), Hook(this), Arm(this)))
 	var maxSpeed = 1.0

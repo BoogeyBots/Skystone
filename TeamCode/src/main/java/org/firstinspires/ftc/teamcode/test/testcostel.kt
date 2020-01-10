@@ -16,8 +16,6 @@ class TestCostel : BBOpMode() {
     override fun init() {
         motor1 = hardwareMap.get(DcMotorEx::class.java, "costel1")
         motor2 = hardwareMap.get(DcMotorEx::class.java, "costel2")
-
-
     }
 
     override fun loop() {
