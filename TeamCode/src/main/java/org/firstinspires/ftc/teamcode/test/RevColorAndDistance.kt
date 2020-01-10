@@ -26,19 +26,23 @@ class TestColorAndDistanceSensor : BBOpMode() {
 
 		val sensorTimeOfFlight = sensorRange as Rev2mDistanceSensor?
 		val color = get<ColorSensorModule>().RGB()
-		telemetry.addData("COLOR", "R: ${color.r} | G: ${color.g} | B: ${color.b} | A: ${color.a}")
+		var frac = (color.r * color.g ) / (color.b * color.b)
+		var distcm = (sensorRange!!.getDistance(DistanceUnit.INCH)) * 2.54
+		var sau = ""
+		if(frac > 2 && distcm < 4.5 && frac < 5) sau = "stone"
+		else if (frac <= 1 && distcm < 4.5) sau = "skystone"
+		else if (distcm > 4.5) sau = "apropie te"
+		else sau = "nu e skystone"
+
+		telemetry.addData("COLOR", "R: ${color.r} | G: ${color.g} | B: ${color.b} | A: ${color.a} | FRAC: ${frac} | STONE: ${sau}")
 
 		telemetry.addData("deviceName", sensorRange!!.deviceName)
-		telemetry.addData("range", String.format("%.01f in", sensorRange!!.getDistance(DistanceUnit.INCH)))
+		telemetry.addData("range", String.format("%.01f cm", distcm))
 
 		telemetry.addData("ID", String.format("%x", sensorTimeOfFlight!!.modelID))
 		telemetry.addData("did time out", java.lang.Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()))
 
-		/*if(sensorRange!!.getDistance(DistanceUnit.INCH) < 12 && sensorRange!!.getDistance(DistanceUnit.INCH) > 4)
-		{
-			if()
-		}
-		*/
+		//if(sensorRange!!.getDistance(DistanceUnit.INCH) < )
 
 		telemetry.update()
 	}

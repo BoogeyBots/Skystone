@@ -18,10 +18,10 @@ class TestColorSensor : BBOpMode() {
 	}
 
 	override fun loop() {
-
-
 		val color = get<ColorSensorModule>().RGB()
-		telemetry.addData("COLOR", "R: ${color.r} | G: ${color.g} | B: ${color.b} | A: ${color.a}")
+		var frac = (color.r * color.g ) / (color.b * color.b)
+
+		telemetry.addData("COLOR", "R: ${color.r} | G: ${color.g} | B: ${color.b} | A: ${color.a} | FRAC: ${frac}")
 	}
 }
 
