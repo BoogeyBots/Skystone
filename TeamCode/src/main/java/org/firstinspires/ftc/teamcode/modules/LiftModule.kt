@@ -6,20 +6,20 @@ import com.qualcomm.robotcore.hardware.HardwareDevice
 
 class LiftModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
-	val liftMotor get() = get<DcMotor>("lift")
+	val motor get() = get<DcMotor>("lift")
 
-	val maxPower: Double = 0.1
+	val maxPower: Double =  1.0
 
 	override fun init() {
 		components["lift"] = hardwareMap.get(DcMotor::class.java, "lift")
 	}
 
 	fun run(p: Double) {
-		liftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-		liftMotor.power = p * maxPower
+		//motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+		motor.power = p * maxPower
 	}
 
 	fun float() {
-		liftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
+		motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
 	}
 }

@@ -54,9 +54,9 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 
     override fun sideways(inches: Double, power: Double, timeout: Double) {
         get<DcMotorEx>("lf").direction = DcMotorSimple.Direction.FORWARD
-        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.FORWARD
+        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.REVERSE
         get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.REVERSE
-        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
+        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.FORWARD
         encoderDrive(inches, power, timeout)
     }
 

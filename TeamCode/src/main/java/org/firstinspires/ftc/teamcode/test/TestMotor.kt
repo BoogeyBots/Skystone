@@ -13,7 +13,7 @@ class TestMotor : BBOpMode() {
 	lateinit var motor: DcMotorEx
 
 	override fun init() {
-		motor = hardwareMap.get(DcMotorEx::class.java, "lf")
+		motor = hardwareMap.get(DcMotorEx::class.java, "lb")
 	}
 
 	override fun loop() {
