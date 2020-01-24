@@ -8,9 +8,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 
 class DistanceSensorModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
-	var sensor = get<DistanceSensor>("dist_sensor")
+	private var sensor = get<DistanceSensor>("dist_sensor")
 	private var sensorRange: DistanceSensor? = null
-	val sensorTimeOfFlight = sensorRange as Rev2mDistanceSensor?
+	private val sensorTimeOfFlight = sensorRange as Rev2mDistanceSensor?
 
 
 	override fun init() {

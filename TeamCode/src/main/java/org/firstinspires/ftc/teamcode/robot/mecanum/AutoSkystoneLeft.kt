@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.mecanum
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.Arm
 import org.firstinspires.ftc.teamcode.Camera
 import org.firstinspires.ftc.teamcode.Mecanum
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 
 @Autonomous(name = "MECANUM: AUTO SKYSTONE LEFT", group = "SKYSTONE MECANUM")
+@Disabled
 class AutoSkystoneLeft : BBLinearOpMode() {
 	override val robot = Robot(this, setOf(Mecanum(this), Camera(this),Arm(this)))
 
