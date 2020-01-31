@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.modules
+package org.firstinspires.ftc.teamcode.modules.mecanumV2_module
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.DigitalChannel
@@ -7,19 +7,16 @@ import com.qualcomm.robotcore.hardware.TouchSensor
 
 class TouchSensorModule(override val opMode: OpMode) : RobotModule {
     override var components: HashMap<String, HardwareDevice> = hashMapOf()
-    var sensor // Hardware Device Object
-            : DigitalChannel? = null
+    val sensor = get<TouchSensor>("touch")
 
 
     override fun init() {
-        sensor = hardwareMap.get(DigitalChannel::class.java , "touch_sensor")
-        sensor!!.setMode(DigitalChannel.Mode.INPUT)
+        components["touch"] = hardwareMap.get(TouchSensor::class.java, "touch")
 
     }
 
-    fun is_pressed() : Boolean{
-        return sensor!!.state}
-
-
+    fun isPressed(): Boolean {
+        return sensor.isPressed
+    }
 
 }

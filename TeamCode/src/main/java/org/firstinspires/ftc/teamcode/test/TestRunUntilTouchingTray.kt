@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.test
 
 import org.firstinspires.ftc.teamcode.Mecanum
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.TrayTouchModule
+import org.firstinspires.ftc.teamcode.modules.obsolete.TrayTouchModule
 import org.firstinspires.ftc.teamcode.opmode.BBLinearOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.utils.waitForStartFixed

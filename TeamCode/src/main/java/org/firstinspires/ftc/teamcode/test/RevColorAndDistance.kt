@@ -2,12 +2,10 @@ package org.firstinspires.ftc.teamcode.test
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DistanceSensor
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.ColorSensorModule
-import org.firstinspires.ftc.teamcode.modules.TestModule
+import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.ColorSensorModule
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
@@ -26,9 +24,9 @@ class TestColorAndDistanceSensor : BBOpMode() {
 
 		val sensorTimeOfFlight = sensorRange as Rev2mDistanceSensor?
 		val color = get<ColorSensorModule>().RGB()
-		var frac = (color.r * color.g ) / (color.b * color.b)
-		var distcm = (sensorRange!!.getDistance(DistanceUnit.INCH)) * 2.54
-		var sau = ""
+		val frac = (color.r * color.g ) / (color.b * color.b)
+		val distcm = (sensorRange!!.getDistance(DistanceUnit.INCH)) * 2.54
+		val sau: String
 		if(frac > 2 && distcm < 4.5 && frac < 5) sau = "stone"
 		else if (frac <= 1 && distcm < 4.5) sau = "skystone"
 		else if (distcm > 4.5) sau = "apropie te"

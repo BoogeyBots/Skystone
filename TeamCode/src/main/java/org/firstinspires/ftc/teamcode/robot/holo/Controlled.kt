@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.Holonomic
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.HoloGrabber
-import org.firstinspires.ftc.teamcode.modules.HoloHook
+import org.firstinspires.ftc.teamcode.modules.obsolete.HoloGrabber
+import org.firstinspires.ftc.teamcode.modules.obsolete.HoloHook
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 

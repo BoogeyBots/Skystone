@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode.test
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.ColorSensorModule
-import org.firstinspires.ftc.teamcode.modules.TouchSensorModule
+import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.TouchSensorModule
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
@@ -17,8 +16,8 @@ class TestTouchModule : BBOpMode(){
     }
 
     override fun loop() {
-        var touch = get<TouchSensorModule>().is_pressed()
-        telemetry.addData("TOUCH" , "${touch}")
+        val touch = get<TouchSensorModule>().isPressed()
+        telemetry.addData("TOUCH" , "$touch")
 
     }
 }

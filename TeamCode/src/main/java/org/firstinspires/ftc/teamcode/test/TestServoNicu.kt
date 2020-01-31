@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.test
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.TestModule
+import org.firstinspires.ftc.teamcode.modules.obsolete.TestModule
 import org.firstinspires.ftc.teamcode.opmode.BBLinearOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 

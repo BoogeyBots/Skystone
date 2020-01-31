@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.modules
+package org.firstinspires.ftc.teamcode.modules.mecanumV2_module
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
@@ -8,9 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 
 class DistanceSensorModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
-	private var sensor = get<DistanceSensor>("dist_sensor")
-	private var sensorRange: DistanceSensor? = null
-	private val sensorTimeOfFlight = sensorRange as Rev2mDistanceSensor?
+	private val sensor = get<DistanceSensor>("dist_sensor")
 
 
 	override fun init() {
@@ -18,7 +16,7 @@ class DistanceSensorModule(override val opMode: OpMode) : RobotModule {
 	}
 
 	fun getDistance(): Double {
-		return sensorRange!!.getDistance(DistanceUnit.CM)
+		return sensor.getDistance(DistanceUnit.CM)
 	}
 
 

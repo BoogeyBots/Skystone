@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode.robot.holo
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import org.firstinspires.ftc.teamcode.Holonomic
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.HoloGrabber
-import org.firstinspires.ftc.teamcode.modules.HoloHook
+import org.firstinspires.ftc.teamcode.modules.obsolete.HoloGrabber
+import org.firstinspires.ftc.teamcode.modules.obsolete.HoloHook
 import org.firstinspires.ftc.teamcode.opmode.BBLinearOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.utils.waitForStartFixed

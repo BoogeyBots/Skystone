@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.modules
+package org.firstinspires.ftc.teamcode.modules.mecanumV2_module
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.*
@@ -81,6 +81,17 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 
     fun forwardUntil(power: Double, predicate: () -> Boolean) {
         while (!predicate()) {
+            motors.forEach { it.power = power }
+        }
+    }
+
+    fun sidewaysUntil(power: Double, predicate: () -> Boolean) {
+
+        get<DcMotorEx>("lf").direction = DcMotorSimple.Direction.FORWARD
+        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.REVERSE
+        get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.REVERSE
+        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.FORWARD
+        while (!predicate()){
             motors.forEach { it.power = power }
         }
     }
