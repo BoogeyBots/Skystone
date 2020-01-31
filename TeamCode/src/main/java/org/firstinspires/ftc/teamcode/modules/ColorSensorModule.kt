@@ -12,7 +12,7 @@ class ColorSensorModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
 	private val sensor get() = get<ColorSensor>("color")
 	private val color get() = RGB()
-	private var frac = (color.g * color.g ) / (color.b * color.b)
+	private val frac get() = (color.g * color.g) / (color.b * color.b)
 
 
 	override fun init() {

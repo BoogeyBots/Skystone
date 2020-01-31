@@ -28,13 +28,11 @@ abstract class AutoSkystoneLeftV2 : BBLinearOpMode() {
 
 		waitForStartFixed()
 
-		get<Mecanum>().forward(5.0 , 0.8, 4.0)
+		get<Mecanum>().forward(5.0, 0.8, 4.0)
 		get<Mecanum>().sideways(29.0, 0.8, 4.0)
 
 		// primul cub
-		if(color.IsSkystone() == "skystone"){
-			// coaie ce plm se face cu unghiuri & shit si n avem autonom
-			//ba eu bag pl fac boti pe reddit
-		}
+		if (color.IsSkystone() == "skystone")
+			TODO()
 	}
 }

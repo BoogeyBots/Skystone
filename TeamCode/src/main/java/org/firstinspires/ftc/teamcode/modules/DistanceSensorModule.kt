@@ -10,7 +10,6 @@ class DistanceSensorModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
 	private var sensor = get<DistanceSensor>("dist_sensor")
 	private var sensorRange: DistanceSensor? = null
-	private val sensorTimeOfFlight = sensorRange as Rev2mDistanceSensor?
 
 
 	override fun init() {

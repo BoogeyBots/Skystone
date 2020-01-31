@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.test
 
+import org.firstinspires.ftc.teamcode.Arm
+import org.firstinspires.ftc.teamcode.Hook
 import org.firstinspires.ftc.teamcode.Mecanum
 import org.firstinspires.ftc.teamcode.Robot
 import org.firstinspires.ftc.teamcode.modules.TrayTouchModule
@@ -16,5 +18,6 @@ class TestRunUntilTouchingTray : BBLinearOpMode() {
 		waitForStartFixed()
 
 		get<Mecanum>().forwardUntil(0.5) { get<TrayTouchModule>().isPressed }
+		get<Hook>().grab()
 	}
 }
