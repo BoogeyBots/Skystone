@@ -23,7 +23,7 @@ abstract class AutoSkystoneLeftV2 : BBLinearOpMode() {
 		waitForStartFixed()
 
 		get<Mecanum>().forward(5.0 , 0.8, 4.0)
-		get<Mecanum>().sidewaysUntil(0.9, {distance.getDistance() < 5.0 })
+		get<Mecanum>().sidewaysUntil(0.9) {distance.getDistance() < 5.0 }
 
 		// primul cub
 		if(color.IsSkystone() == "skystone"){
@@ -46,7 +46,7 @@ abstract class AutoSkystoneLeftV2 : BBLinearOpMode() {
 		get<Mecanum>().forward(48.0 + cub * 8, 0.9, 4.0)
 		get<Arm>().ungrab()
 		get<Mecanum>().forward(-48.0 - 24.0 - cub*8, 0.9, 4.0)
-		get<Mecanum>().sidewaysUntil(0.9, {distance.getDistance() < 5.0})
+		get<Mecanum>().sidewaysUntil(0.9) {distance.getDistance() < 5.0}
 		get<Arm>().grab()
 		get<Mecanum>().sideways(-6.0, 0.9, 4.0)
 		get<Mecanum>().forward(48.0 + 24.0 + cub*8, 0.9, 4.0)

@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 
 @Autonomous(name = "MECANUM: AUTO TRAY RIGHT", group = "SKYSTONE MECANUM")
 @Disabled
-class AutoTrayRight : BBLinearOpMode() {
+class AutoTrayRigh : BBLinearOpMode() {
 	override val robot = Robot(this, setOf(Mecanum(this), Camera(this), Hook(this)))
 
 	override fun runOpMode() {
