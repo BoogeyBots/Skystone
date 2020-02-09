@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor
 
 class TouchSensorModule(override val opMode: OpMode) : RobotModule {
     override var components: HashMap<String, HardwareDevice> = hashMapOf()
-    val sensor = get<TouchSensor>("touch")
+    val sensor get() = get<TouchSensor>("touch")
 
 
     override fun init() {

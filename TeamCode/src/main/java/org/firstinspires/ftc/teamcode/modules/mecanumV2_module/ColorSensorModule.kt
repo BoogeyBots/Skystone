@@ -1,21 +1,24 @@
 package org.firstinspires.ftc.teamcode.modules.mecanumV2_module
-import com.qualcomm.robotcore.hardware.SwitchableLight
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.ColorSensor
+import com.qualcomm.robotcore.hardware.DistanceSensor
 import com.qualcomm.robotcore.hardware.HardwareDevice
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 
 data class RGBAColor(val r: Int, val g: Int, val b: Int, val a: Int)
 
 class ColorSensorModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
 	private val sensor get() = get<ColorSensor>("color")
+	private val distanta get() = get<DistanceSensor>("color")
 		private val color get() = RGB()
 	private val frac get() = (color.g * color.g) / (color.b * color.b)
 
 
 	override fun init() {
 		components["color"] = hardwareMap.get(ColorSensor::class.java, "color")
+		components["color"] = hardwareMap.get(DistanceSensor::class.java, "color")
 		sensor.enableLed(false)
 	}
 
@@ -35,5 +38,8 @@ class ColorSensorModule(override val opMode: OpMode) : RobotModule {
 
 		return sau
 
+	}
+	fun getDistance() : Double {
+		return distanta.getDistance(DistanceUnit.CM)
 	}
 }

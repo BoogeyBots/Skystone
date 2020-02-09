@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.vision
+package org.firstinspires.ftc.teamcode.test.TensorFlowAttempt
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.vuforia.Vuforia
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer
+import org.firstinspires.ftc.teamcode.vision.MasterVision
+import org.firstinspires.ftc.teamcode.vision.SampleRandomizedPositions
 
 @TeleOp(name = "TensorFlowAttempt ", group = "TEST")
 class VisionTest : LinearOpMode() {

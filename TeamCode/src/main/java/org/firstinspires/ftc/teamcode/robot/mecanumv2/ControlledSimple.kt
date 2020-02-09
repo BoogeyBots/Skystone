@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.*
 import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.ArmV2Module
@@ -16,7 +17,8 @@ class ControlledSimple : BBOpMode() {
 			Mecanum(this),
 			Hook(this),
 				ArmV2Module(this),
-			ColorSensorModule(this)
+			ColorSensorModule(this),
+				Touch(this)
 			//Arm(this)))
 		))
 	//Lift(this),
@@ -28,6 +30,7 @@ class ControlledSimple : BBOpMode() {
 
 	override fun init() {
 		robot.modules.forEach { it.init() }
+
 	}
 
 	override fun loop() {
@@ -66,13 +69,13 @@ class ControlledSimple : BBOpMode() {
 						(-gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
 					}
 					"rf" -> {
-						(-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+						(gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
 					}
 					"lb" -> {
 						(gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
 					}
 					"rb" -> {
-						(gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+						(-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
 					}
 					else -> 0.0
 				},
@@ -84,7 +87,8 @@ class ControlledSimple : BBOpMode() {
 		get<Mecanum>().motorsWithNames.forEach({
 			telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
 		})
-		telemetry.addData("Color Sensor", "${get<ColorSensorModule>().IsSkystone()}")
+		telemetry.addData("Color Sensor ", get<ColorSensorModule>().IsSkystone())
+		telemetry.addData("Touch Sensor ", get<Touch>().isPressed())
 
 		//telemetry.addData("MAX SPEED", maxSpeed)
 		//telemetry.addData("LIFT SPEED", get<Lift>().motor.power)

@@ -6,17 +6,24 @@ import com.qualcomm.robotcore.util.ElapsedTime
 import kotlin.math.PI
 import kotlin.math.abs
 
+
 class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() {
     override var components: HashMap<String, HardwareDevice> = hashMapOf()
+    private var pidNew = PIDFCoefficients(0.1, 0.2, 0.3, 5.4)
 
     override fun init() {
         listOf("lf", "rf", "lb", "rb")
-            .forEach { name -> components[name] = hardwareMap.get(DcMotorEx::class.java, name) }
+            .forEach { name -> components[name] = hardwareMap.get(DcMotorEx::class.java, name)
+            }
 
         motorsWithNames
             .forEach { (name, motor) ->
                 when (name) { "rf", "rb" -> motor.direction = DcMotorSimple.Direction.REVERSE }
             }
+        motors.forEach{
+            it.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER)
+            it.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew)
+        }
     }
 
     override fun stop() {
@@ -49,14 +56,15 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
         get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.REVERSE
         get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.FORWARD
         get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
+        
         encoderDrive(inches, power, timeout)
     }
 
     override fun sideways(inches: Double, power: Double, timeout: Double) {
         get<DcMotorEx>("lf").direction = DcMotorSimple.Direction.FORWARD
-        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.REVERSE
+        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.FORWARD
         get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.REVERSE
-        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.FORWARD
+        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
         encoderDrive(inches, power, timeout)
     }
 
@@ -86,13 +94,15 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
     }
 
     fun sidewaysUntil(power: Double, predicate: () -> Boolean) {
-
         get<DcMotorEx>("lf").direction = DcMotorSimple.Direction.FORWARD
-        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.REVERSE
+        get<DcMotorEx>("rf").direction = DcMotorSimple.Direction.FORWARD
         get<DcMotorEx>("lb").direction = DcMotorSimple.Direction.REVERSE
-        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.FORWARD
+        get<DcMotorEx>("rb").direction = DcMotorSimple.Direction.REVERSE
+
         while (!predicate()){
-            motors.forEach { it.power = power }
+            motors.forEach {
+                it.power = power
+            }
         }
     }
 
@@ -105,3 +115,4 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 	    const val DEFAULT_POWER = 0.5
     }
 }
+

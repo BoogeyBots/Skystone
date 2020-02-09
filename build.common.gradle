@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId 'com.qualcomm.ftcrobotcontroller'
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 26
 
         multiDexEnabled true
@@ -106,6 +106,9 @@ android {
 repositories {
     flatDir {
         dirs rootProject.file('libs')
+    }
+    maven {
+        url "https://ftclib.bintray.com/FTCLib"
     }
 }
 apply from: 'build.release.gradle'

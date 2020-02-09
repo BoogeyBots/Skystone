@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.*
 import org.firstinspires.ftc.teamcode.modules.obsolete.CameraModule
 import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.HookModule
+import org.firstinspires.ftc.teamcode.modules.obsolete.HolonomicDriveTrainModule
 
 typealias Mecanum = MecanumDriveTrainModule
 typealias Holonomic = HolonomicDriveTrainModule

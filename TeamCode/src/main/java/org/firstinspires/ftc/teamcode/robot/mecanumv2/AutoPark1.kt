@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import org.firstinspires.ftc.teamcode.Hook
 import org.firstinspires.ftc.teamcode.Mecanum
 import org.firstinspires.ftc.teamcode.Robot
@@ -28,5 +29,12 @@ class AutoPark1 : BBLinearOpMode() {
 		get<Hook>().ungrab()
 		wait(1.0)
 		get<Mecanum>().sideways(24.0 + 9.0 + 18.0, timeout = 5.0)*/
+
+		telemetry.addData("Motor Power LF:" ,get<Mecanum>().motorsWithNames["lf"])
+		telemetry.addData("Motor Power RF:" ,get<Mecanum>().motorsWithNames["rf"])
+		telemetry.addData("Motor Power LB:" ,get<Mecanum>().motorsWithNames["lb"])
+		telemetry.addData("Motor Power RB:" ,get<Mecanum>().motorsWithNames["rb"])
+
+
 	}
 }

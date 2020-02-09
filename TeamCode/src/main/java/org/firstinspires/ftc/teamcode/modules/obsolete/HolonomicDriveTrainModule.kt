@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.modules.mecanumV2_module
+package org.firstinspires.ftc.teamcode.modules.obsolete
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareDevice
 import com.qualcomm.robotcore.util.ElapsedTime
+import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.DriveTrainModule
+import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.MecanumDriveTrainModule
 import kotlin.math.PI
 import kotlin.math.abs
 
