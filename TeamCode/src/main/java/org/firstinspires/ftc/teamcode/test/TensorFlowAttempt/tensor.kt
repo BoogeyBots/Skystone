@@ -7,7 +7,7 @@ import com.vuforia.Vuforia
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer
 
-@TeleOp(name = "TensorFlowAttempt ", group = "TEST")
+@TeleOp(name = "TensorFlowAttempt Panadol", group = "TEST")
 class VisionTest : LinearOpMode() {
 	internal lateinit var vision: MasterVision
 	internal lateinit var goldPosition: SampleRandomizedPositions
@@ -24,9 +24,10 @@ class VisionTest : LinearOpMode() {
 		vision.init()// enables the camera overlay. this will take a couple of seconds
 		vision.enable()// enables the tracking algorithms. this might also take a little time
 
-		goldPosition = vision.tfLite.lastKnownSampleOrder
-
 		while (opModeIsActive()) {
+
+			goldPosition = vision.tfLite.lastKnownSampleOrder
+
 			telemetry.addData("SkystonePosition was", goldPosition)// giving feedback
 
 			sleep(2000)
@@ -40,8 +41,6 @@ class VisionTest : LinearOpMode() {
 
 			telemetry.update()
 		}
-		vision.disable()
-		vision.shutdown()
 
 		if(goldPosition == SampleRandomizedPositions.UNDETERMINED) {
 
@@ -49,9 +48,6 @@ class VisionTest : LinearOpMode() {
 			telemetry.update()
 
 			sleep(5000)
-
-			vision.init()
-			vision.enable()
 
 			vision = MasterVision(parameters, hardwareMap, true, MasterVision.TFLiteAlgorithm.INFER_LEFT)
 
@@ -70,10 +66,10 @@ class VisionTest : LinearOpMode() {
 
 				telemetry.update()
 			}
-
-			vision.disable()
-
-			vision.shutdown()
 		}
+
+		vision.disable()
+
+		vision.shutdown()
 	}
 }

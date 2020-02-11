@@ -16,6 +16,6 @@ class AutoPark2 : BBLinearOpMode() {
 		waitForStartFixed()
 
 		get<Mecanum>().forward(24.0, timeout = 5.0)
-		get<Mecanum>().sideways(10.0, power = 0.3, timeout = 5.0)
+		get<Mecanum>().sideways(10.0, power = 0.6, timeout = 5.0)
 	}
 }

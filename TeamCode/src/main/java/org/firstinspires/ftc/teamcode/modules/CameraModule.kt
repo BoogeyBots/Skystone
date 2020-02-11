@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.modules
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.HardwareDevice
-import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.ClassFactory
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector
+
 
 class CameraModule(override val opMode: OpMode) : RobotModule {
     override lateinit var components: HashMap<String, HardwareDevice>
@@ -23,10 +23,14 @@ class CameraModule(override val opMode: OpMode) : RobotModule {
         if (!started) {
             tensorflowStart()
         }
-        val indexedValue = tfod.updatedRecognitions
-            .sortedBy { it.left }
-            .withIndex()
-            .firstOrNull { it.value.label == LABEL_SKYSTONE }
+        val indexedValue = if (tfod.updatedRecognitions != null) {
+            tfod.updatedRecognitions
+                .sortedBy { it.left }
+                .withIndex()
+                .firstOrNull { it.value.label == LABEL_SKYSTONE }
+        } else {
+            null
+        }
         return (indexedValue?.index ?: 2)
     }
 
@@ -56,6 +60,8 @@ class CameraModule(override val opMode: OpMode) : RobotModule {
     private fun initVuforia() {
         val parameters = VuforiaLocalizer.Parameters()
         parameters.vuforiaLicenseKey = VUFORIA_KEY
+        parameters.cameraName = hardwareMap.get(WebcamName::class.java, "Webcam 1")
+
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK
 
         localizer = ClassFactory.getInstance().createVuforia(parameters)

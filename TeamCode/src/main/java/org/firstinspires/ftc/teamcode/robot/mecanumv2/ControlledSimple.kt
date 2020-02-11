@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.*
 import org.firstinspires.ftc.teamcode.modules.ArmV2Module
+import org.firstinspires.ftc.teamcode.modules.ArmV3Module
 import org.firstinspires.ftc.teamcode.modules.ColorSensorModule
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
@@ -15,7 +17,7 @@ class ControlledSimple : BBOpMode() {
 		setOf(
 			Mecanum(this),
 			Hook(this),
-			ArmV2Module(this),
+			//ArmV3Module(this),
 			ColorSensorModule(this)
 			//Arm(this)))
 		))
@@ -28,6 +30,7 @@ class ControlledSimple : BBOpMode() {
 
 	override fun init() {
 		robot.modules.forEach { it.init() }
+		get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
 	}
 
 	override fun loop() {
@@ -35,8 +38,8 @@ class ControlledSimple : BBOpMode() {
 		when {
 			gamepad1.a -> get<Hook>().grab()
 			gamepad1.y -> get<Hook>().ungrab()
-			gamepad1.x -> get<ArmV2Module>().grab()
-			gamepad1.b -> get<ArmV2Module>().ungrab()
+			//gamepad1.x -> get<ArmV2Module>().grab()
+			//gamepad1.b -> get<ArmV2Module>().ungrab()
 			//gamepad1.y -> get<Lift>().float()
 			//gamepad2.right_bumper -> get<Intake>().run(1.0)
 			//gamepad2.left_bumper -> get<Intake>().run(-1.0)
@@ -66,13 +69,13 @@ class ControlledSimple : BBOpMode() {
 						(-gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
 					}
 					"rf" -> {
-						(-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+						(gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
 					}
 					"lb" -> {
 						(gamepad1.left_stick_x + -gamepad1.right_stick_x).toDouble()
 					}
 					"rb" -> {
-						(gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
+						(-gamepad1.left_stick_x + gamepad1.right_stick_x).toDouble()
 					}
 					else -> 0.0
 				},
@@ -85,6 +88,7 @@ class ControlledSimple : BBOpMode() {
 			telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
 		})
 		telemetry.addData("Color Sensor", "${get<ColorSensorModule>().IsSkystone()}")
+		telemetry.addData("Distance Sensor", "${get<ColorSensorModule>().Distance()}")
 
 		//telemetry.addData("MAX SPEED", maxSpeed)
 		//telemetry.addData("LIFT SPEED", get<Lift>().motor.power)

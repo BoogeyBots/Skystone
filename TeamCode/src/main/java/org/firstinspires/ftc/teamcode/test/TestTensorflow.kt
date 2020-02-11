@@ -18,10 +18,10 @@ class TestTensorflow : BBLinearOpMode() {
 
 
 		while (opModeIsActive()) {
-            val skystoneIndex = get<Camera>().getSkystoneIndex()
+			val skystoneIndex = get<Camera>()?.getSkystoneIndex()
 
-            telemetry.addData("POS", skystoneIndex)
-            telemetry.update()
-        }
+			telemetry.addData("POS", skystoneIndex)
+			telemetry.update()
+		}
 	}
 }

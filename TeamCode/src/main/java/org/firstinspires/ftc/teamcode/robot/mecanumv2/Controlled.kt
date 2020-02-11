@@ -29,7 +29,7 @@ class Controlled : BBOpMode() {
 		when {
 			gamepad2.a -> get<Hook>().grab()
 			gamepad2.y -> get<Hook>().ungrab()
-			gamepad1.y -> get<Lift>().float()
+			//gamepad1.y -> get<Lift>().float()
 			gamepad2.right_bumper -> get<Intake>().run(1.0)
 			gamepad2.left_bumper -> get<Intake>().run(-1.0)
 			gamepad2.x -> get<Output>().grab()
@@ -42,7 +42,7 @@ class Controlled : BBOpMode() {
 			maxSpeed -= speedModifier
 		}
 
-		get<Lift>().run(Range.clip(-gamepad2.left_stick_y.toDouble(), 0.0, 1.0))
+		//get<Lift>().run(Range.clip(-gamepad2.left_stick_y.toDouble(), 0.0, 1.0))
 		get<Output>().run((-gamepad2.left_trigger + gamepad2.right_trigger).toDouble())
 
 		maxSpeed = Range.clip(maxSpeed, 0.0, 1.0)
