@@ -10,20 +10,20 @@ class ServoLinear(override val opMode: OpMode) : RobotModule {
 
 	override fun init() {
 		components["servolinear"] = hardwareMap.get(Servo::class.java, "servolinear")
-		servolinear.position = 0.1
+		servolinear.position = 0.5
 	}
 
 	fun grab() {
-		servolinear.position += resolution
+		servolinear.position = GRAB_POS
 	}
 
 	fun ungrab() {
-		servolinear.position -= resolution
+		servolinear.position = UNGRAB_POS
 	}
 
 	companion object {
-		const val GRAB_POS = 0.27
-		const val UNGRAB_POS = 0.55
-		var resolution = 0.0015
+		const val GRAB_POS = 0.26
+		const val UNGRAB_POS = 0.514
+		var resolution = 0.0030
 	}
 }

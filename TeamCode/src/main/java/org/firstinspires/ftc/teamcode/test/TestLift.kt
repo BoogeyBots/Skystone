@@ -14,12 +14,17 @@ import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 @TeleOp(name = "Test Lift", group = "TEST")
 class TestLift : BBLinearOpMode() {
 	override val robot = Robot(this, setOf(Lift(this)))
-	var timer = ElapsedTime()
+	private var timer = ElapsedTime()
 
 	override fun runOpMode() {
 		robot.modules.forEach { it.init() }
 
+		get<Lift>().motor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+
+
 		waitForStartFixed()
+
+		get<Lift>().motor.mode = DcMotor.RunMode.RUN_TO_POSITION
 
 		while (opModeIsActive()) {
 			if (!get<Lift>().isBusy) {
@@ -47,9 +52,12 @@ class TestLift : BBLinearOpMode() {
 				}
 			}
 
-			telemetry.addData("click time", timer.seconds())
-			telemetry.addData("selected level", get<Lift>().level)
-			telemetry.addData("actual level", get<Lift>().actualLevel)
+			//telemetry.addData("click time", timer.seconds())
+			//telemetry.addData("selected level", get<Lift>().level)
+			//telemetry.addData("actual level", get<Lift>().actualLevel)
+			telemetry.addData("isBusy", get<Lift>().isBusy)
+			telemetry.addData("CurrentPosition", get<Lift>().motor.currentPosition)
+			telemetry.addData("TargetPositon", get<Lift>().motor.targetPosition)
 			telemetry.update()
 		}
 	}

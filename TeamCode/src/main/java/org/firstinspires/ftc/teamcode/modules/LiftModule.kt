@@ -13,14 +13,14 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 	val motor get() = get<DcMotorEx>("lift")
 	val isBusy get() = motor.isBusy
 	val maxPower: Double = 0.25
-	val targets = listOf(0.5 * COUNTS_PER_REV, 0.3 * COUNTS_PER_REV, 0.3 * COUNTS_PER_REV, 0.3 * COUNTS_PER_REV, 0.25 * COUNTS_PER_REV)
+	val targets = listOf(0.15 * COUNTS_PER_REV, 0.35 * COUNTS_PER_REV, 0.40 * COUNTS_PER_REV, 0.35 * COUNTS_PER_REV, 0.33 * COUNTS_PER_REV, 0.20 * COUNTS_PER_REV)
 	val maxLevel get() = targets.size
 	var level = 0
 		set(value) {
-			when {
-				value < 0 -> field = 0
-				value > maxLevel -> field = maxLevel
-				else -> field = value
+			field = when {
+				value < 0 -> 0
+				value > maxLevel -> maxLevel
+				else -> value
 			}
 		}
 
@@ -28,10 +28,10 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 		private set(value) {
 			val oldLevel = field
 
-			when {
-				value < 0 -> field = 0
-				value > maxLevel -> field = maxLevel
-				else -> field = value
+			field = when {
+				value < 0 -> 0
+				value > maxLevel -> maxLevel
+				else -> value
 			}
 
 			motor.targetPosition = targets.take(field).sum().toInt()
@@ -48,8 +48,10 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 		motor.targetPosition = 0
 		motor.power = 0.0
 		// ORIGINAL PIDF: p=9.999847 i=2.999954 d=0.000000 f=0.000000
+		motor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
 		motor.mode = DcMotor.RunMode.RUN_TO_POSITION
 		motor.setVelocityPIDFCoefficients(5.0, 4.0, 2.0, 0.0)
+		//motor.targetPosition = (0.05 * COUNTS_PER_REV).toInt()
 	}
 
 	fun update() {

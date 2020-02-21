@@ -15,11 +15,11 @@ class DcLinear(override val opMode: OpMode) : RobotModule {
 	}
 
 	fun fwd() {
-		dclinear.power = 0.3
+		dclinear.power = 0.5
 	}
 
 	fun bck() {
-		dclinear.power = -0.3
+		dclinear.power = -0.5
 	}
 
 	fun stopOvr() {

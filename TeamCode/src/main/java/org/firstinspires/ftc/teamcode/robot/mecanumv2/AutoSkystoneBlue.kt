@@ -39,7 +39,7 @@ class AutoSkystoneBlue : BBLinearOpMode() {
 		wait(0.5)
 		get<ArmV3Module>().goUp()
 		wait(0.5)
-		/*
+
 		get<Mecanum>().forward(-24.0 * 4.5, timeout = 7.0)
 		get<ArmV3Module>().goDown()
 		wait(0.5)
@@ -48,7 +48,6 @@ class AutoSkystoneBlue : BBLinearOpMode() {
 		get<ArmV3Module>().goUp()
 		wait(0.5)
 		get<Mecanum>().forward(24 * 2.5, timeout = 3.0)
-		*/
 
 
 	}

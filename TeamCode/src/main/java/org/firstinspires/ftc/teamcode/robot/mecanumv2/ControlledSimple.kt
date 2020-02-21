@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ElapsedTime
@@ -11,12 +12,14 @@ import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.test.TestLift
 
+
 @TeleOp(name = "MECANUM: CONTROLLED V2 Test", group = "SKYSTONE MECANUM")
 class ControlledSimple : BBOpMode() {
 	override val robot: Robot = Robot(this,
 		setOf(
 			Mecanum(this),
 			Hook(this),
+			//	ArmRight(this),
 			ArmV3Module(this),
 			Lift(this),
 			DcLinear(this),
@@ -28,24 +31,27 @@ class ControlledSimple : BBOpMode() {
 	override fun init() {
 		robot.modules.forEach { it.init() }
 		get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
+
+		//get<ArmRight>().setup(0.18, 0.3, 1.0, 0.5583)
+		// get<ArmLeft>().setup(0.0, 0.0, 0.0, 0.0)
 	}
 
 	override fun loop() {
 		when {
 			gamepad1.a -> get<Hook>().grab()
 			gamepad1.y -> get<Hook>().ungrab()
-			gamepad1.x -> get<ArmV3Module>().grab()
-			gamepad1.b -> get<ArmV3Module>().ungrab()
-			gamepad1.dpad_down -> get<ArmV3Module>().goDown()
-			gamepad1.dpad_up -> get<ArmV3Module>().goUp()
+//			gamepad1.x -> get<ArmRight>().grab()
+//			gamepad1.b -> get<ArmRight>().ungrab()
+//			gamepad1.dpad_down -> get<ArmRight>().goDown()
+//			gamepad1.dpad_up -> get<ArmRight>().goUp()
 
 
 			//gamepad2.right_bumper -> get<Intake>().run(1.0)
 			//gamepad2.left_bumper -> get<Intake>().run(-1.0)
-			gamepad2.x -> get<ServoLinear>().grab()
-			gamepad2.b -> get<ServoLinear>().ungrab()
-			//gamepad2.dpad_up -> get<DcLinear>().fwd()
-			//gamepad2.dpad_down -> get<DcLinear>().bck()
+			gamepad2.x -> get<ServoLinear>().ungrab()
+			gamepad2.b -> get<ServoLinear>().grab()
+			//gamepad1.dpad_up -> get<DcLinear>().fwd()
+			//gamepad1.dpad_down -> get<DcLinear>().bck()
 		}
 
 		if (gamepad2.right_bumper) get<Intake>().run(1.0)
@@ -61,7 +67,7 @@ class ControlledSimple : BBOpMode() {
 			if (timer.seconds() > TIME_TO_TAP) {
 				when {
 					gamepad2.dpad_left -> {
-						get<Lift>().level = 0
+						get<Lift>().level = 1
 						timer.reset()
 					}
 					gamepad2.dpad_right -> {
@@ -74,7 +80,7 @@ class ControlledSimple : BBOpMode() {
 				gamepad2.dpad_up -> get<Lift>().update()
 				gamepad2.dpad_down -> {
 					val oldLvl = get<Lift>().level
-					get<Lift>().level = 0
+					get<Lift>().level = 1
 					get<Lift>().update()
 					get<Lift>().level = oldLvl
 				}
@@ -136,6 +142,9 @@ class ControlledSimple : BBOpMode() {
 		telemetry.addData("click time", timer.seconds())
 		telemetry.addData("selected level", get<Lift>().level)
 		telemetry.addData("actual level", get<Lift>().actualLevel)
+		telemetry.addData("CurrentPosition", get<Lift>().motor.currentPosition)
+		telemetry.addData("TargetPositon", get<Lift>().motor.targetPosition)
+		telemetry.addData("ServoPosition", get<ServoLinear>().servolinear.position)
 		telemetry.update()
 	}
 
