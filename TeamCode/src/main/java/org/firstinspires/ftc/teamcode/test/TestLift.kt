@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 @TeleOp(name = "Test Lift", group = "TEST")
 class TestLift : BBLinearOpMode() {
 	override val robot = Robot(this, setOf(Lift(this)))
-	var timer = ElapsedTime()
+	private var timer = ElapsedTime()
 
 	override fun runOpMode() {
 		robot.modules.forEach { it.init() }

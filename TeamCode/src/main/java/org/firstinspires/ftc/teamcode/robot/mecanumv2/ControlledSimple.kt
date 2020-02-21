@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ElapsedTime
@@ -11,13 +12,15 @@ import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.test.TestLift
 
+
 @TeleOp(name = "MECANUM: CONTROLLED V2 Test", group = "SKYSTONE MECANUM")
 class ControlledSimple : BBOpMode() {
 	override val robot: Robot = Robot(this,
 		setOf(
 			Mecanum(this),
 			Hook(this),
-			ArmV3Module(this),
+			//	ArmRight(this),
+			//	ArmLeft(this),
 			Lift(this),
 			DcLinear(this),
 			ServoLinear(this),
@@ -28,16 +31,19 @@ class ControlledSimple : BBOpMode() {
 	override fun init() {
 		robot.modules.forEach { it.init() }
 		get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
+
+		//get<ArmRight>().setup(0.18, 0.3, 1.0, 0.5583)
+		// get<ArmLeft>().setup(0.0, 0.0, 0.0, 0.0)
 	}
 
 	override fun loop() {
 		when {
 			gamepad1.a -> get<Hook>().grab()
 			gamepad1.y -> get<Hook>().ungrab()
-			gamepad1.x -> get<ArmV3Module>().grab()
-			gamepad1.b -> get<ArmV3Module>().ungrab()
-			gamepad1.dpad_down -> get<ArmV3Module>().goDown()
-			gamepad1.dpad_up -> get<ArmV3Module>().goUp()
+//			gamepad1.x -> get<ArmRight>().grab()
+//			gamepad1.b -> get<ArmRight>().ungrab()
+//			gamepad1.dpad_down -> get<ArmRight>().goDown()
+//			gamepad1.dpad_up -> get<ArmRight>().goUp()
 
 
 			//gamepad2.right_bumper -> get<Intake>().run(1.0)

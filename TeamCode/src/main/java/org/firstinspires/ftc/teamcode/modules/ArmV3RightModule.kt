@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.modules
 
+
 import android.os.SystemClock.sleep
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.HardwareDevice
@@ -7,18 +8,18 @@ import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.Arm
 
 
-class ArmV3Module(override val opMode: OpMode) : RobotModule {
+class ArmV3RightModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
-	val arm get() = get<Servo>("armleft")
-	val grabber get() = get<Servo>("grabberleft")
+	val arm get() = get<Servo>("armright")
+	val grabber get() = get<Servo>("grabberright")
 	var upPos = 1.0
 	var downPos = 0.5583
 	var grabPos = 0.18
 	var ungrabPos = 0.3
 
 	override fun init() {
-		components["armleft"] = hardwareMap.get(Servo::class.java, "armleft")
-		components["grabberleft"] = hardwareMap.get(Servo::class.java, "grabberleft")
+		components["armright"] = hardwareMap.get(Servo::class.java, "armright")
+		components["grabberright"] = hardwareMap.get(Servo::class.java, "grabberright")
 		ungrab()
 		goUp()
 	}
