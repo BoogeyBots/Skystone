@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.test
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.Robot
@@ -20,14 +21,13 @@ class TestServoNicu : BBLinearOpMode() {
 
     override fun runOpMode() {
         val servoMod = robot.modules.first()
-        servoMod.components["servo1"] = hardwareMap.get(Servo::class.java, "servo1")
-        servoMod.components["servo2"] = hardwareMap.get(Servo::class.java, "servo2")
+	    servoMod.components["servo1"] = hardwareMap.get(Servo::class.java, "arm")
+	    servoMod.components["servo2"] = hardwareMap.get(Servo::class.java, "grabber")
 
         val servo1 = get<TestModule>().get<Servo>("servo1")
         val servo2 = get<TestModule>().get<Servo>("servo2")
 
-        servo1.position = 0.5
-        servo2.position = 0.5
+	    servo1.position = 1.0
 
 
         waitForStart()

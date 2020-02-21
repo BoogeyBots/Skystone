@@ -10,6 +10,6 @@ class TrayTouchModule(override val opMode: OpMode) : RobotModule {
 	val isPressed get() = get<TouchSensor>("touch").isPressed
 
 	override fun init() {
-		components["touch"] = hardwareMap.get(TouchSensor::class.java, "touch")
+		components["touch"] = hardwareMap.get(TouchSensor::class.java, "touch_sensor")
 	}
 }

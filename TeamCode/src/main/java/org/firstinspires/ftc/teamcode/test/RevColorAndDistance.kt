@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.test
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DistanceSensor
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "ColorAndDistance", group = "TEST")
+@Disabled
 class TestColorAndDistanceSensor : BBOpMode() {
 	override val robot: Robot = Robot(this, setOf(ColorSensorModule(this)))
 	private var sensorRange: DistanceSensor? = null

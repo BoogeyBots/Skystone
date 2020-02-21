@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.test
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.SwitchableLight
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "TEST COLOR SENSOR", group = "TEST")
+@Disabled
 class TestColorSensor : BBOpMode() {
 	override val robot: Robot = Robot(this, setOf(ColorSensorModule(this)))
 

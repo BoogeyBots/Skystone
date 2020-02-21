@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.test
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.*
 import org.firstinspires.ftc.teamcode.modules.ColorSensorModule
 import org.firstinspires.ftc.teamcode.modules.DistanceSensorModule
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 
 @Autonomous(name = "AutoSenzori", group = "TEST")
+@Disabled
 class AutoTestSenzori : BBLinearOpMode() {
     override val robot = Robot(this, setOf(Mecanum(this),  Arm(this), ColorSensorModule(this), DistanceSensorModule(this)))
     val color = get<ColorSensorModule>()

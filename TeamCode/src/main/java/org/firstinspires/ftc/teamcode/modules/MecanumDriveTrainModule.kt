@@ -53,15 +53,19 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
     }
 
     override fun forward(inches: Double, power: Double, timeout: Double) {
+	    motorsWithNames["lf"]!!.direction = DcMotorSimple.Direction.FORWARD
+	    motorsWithNames["rf"]!!.direction = DcMotorSimple.Direction.REVERSE
+	    motorsWithNames["lb"]!!.direction = DcMotorSimple.Direction.FORWARD
+	    motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.REVERSE
 
         encoderDrive(inches, power, timeout)
     }
 
 	override fun sideways(inches: Double, power: Double, timeout: Double) {
 		motorsWithNames["lf"]!!.direction = DcMotorSimple.Direction.FORWARD
-		motorsWithNames["rf"]!!.direction = DcMotorSimple.Direction.REVERSE
+		motorsWithNames["rf"]!!.direction = DcMotorSimple.Direction.FORWARD
 		motorsWithNames["lb"]!!.direction = DcMotorSimple.Direction.REVERSE
-		motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.FORWARD
+		motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.REVERSE
 
 		encoderDrive(inches, power, timeout)
     }
@@ -86,6 +90,11 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
     }
 
     fun forwardUntil(power: Double, predicate: () -> Boolean) {
+
+	    motorsWithNames["lf"]!!.direction = DcMotorSimple.Direction.FORWARD
+	    motorsWithNames["rf"]!!.direction = DcMotorSimple.Direction.REVERSE
+	    motorsWithNames["lb"]!!.direction = DcMotorSimple.Direction.FORWARD
+	    motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.REVERSE
         while (!predicate()) {
             motors.forEach { it.power = power }
         }

@@ -11,23 +11,32 @@ import kotlin.math.abs
 class LiftModule(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
 	val motor get() = get<DcMotorEx>("lift")
+	val isBusy get() = motor.isBusy
 	val maxPower: Double = 0.25
-	var currentLevel: Int = 0
+	val targets = listOf(0.5 * COUNTS_PER_REV, 0.3 * COUNTS_PER_REV, 0.3 * COUNTS_PER_REV, 0.3 * COUNTS_PER_REV, 0.25 * COUNTS_PER_REV)
+	val maxLevel get() = targets.size
+	var level = 0
 		set(value) {
-			val oldField = field
+			when {
+				value < 0 -> field = 0
+				value > maxLevel -> field = maxLevel
+				else -> field = value
+			}
+		}
+
+	var actualLevel: Int = 0
+		private set(value) {
+			val oldLevel = field
 
 			when {
 				value < 0 -> field = 0
-				value > 4 -> field = MAX_LEVEL
+				value > maxLevel -> field = maxLevel
 				else -> field = value
 			}
 
-			if (oldField > field) {
-				if (field == 0) {
-					motor.targetPosition = ((field * COUNTS_PER_REV * 0.5).toInt()) + 20
-				}
-			} else {
-				motor.targetPosition = ((field * COUNTS_PER_REV * 0.5).toInt())
+			motor.targetPosition = targets.take(field).sum().toInt()
+			if (oldLevel > field && field == 0) {
+				motor.targetPosition += 20
 			}
 			motor.power = LIFT_POWER
 		}
@@ -43,10 +52,13 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 		motor.setVelocityPIDFCoefficients(5.0, 4.0, 2.0, 0.0)
 	}
 
+	fun update() {
+		actualLevel = level
+	}
+
 	companion object {
 		const val COUNTS_PER_REV = 560
 		const val LIFT_POWER = 0.3
-		const val MAX_LEVEL = 4
 		const val THRESHOLD = 10
 	}
 }

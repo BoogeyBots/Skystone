@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.util.ElapsedTime
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.*
-import org.firstinspires.ftc.teamcode.modules.ArmV2Module
-import org.firstinspires.ftc.teamcode.modules.ArmV3Module
-import org.firstinspires.ftc.teamcode.modules.ColorSensorModule
+import org.firstinspires.ftc.teamcode.modules.*
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
+import org.firstinspires.ftc.teamcode.test.TestLift
 
 @TeleOp(name = "MECANUM: CONTROLLED V2 Test", group = "SKYSTONE MECANUM")
 class ControlledSimple : BBOpMode() {
@@ -17,16 +17,13 @@ class ControlledSimple : BBOpMode() {
 		setOf(
 			Mecanum(this),
 			Hook(this),
-			//ArmV3Module(this),
-			ColorSensorModule(this)
-			//Arm(this)))
+			ArmV3Module(this),
+			Lift(this),
+			DcLinear(this),
+			ServoLinear(this),
+			Intake(this)
 		))
-	//Lift(this),
-	//Intake(this),
-	//Output(this)))
 
-	//var maxSpeed = 1.0
-	//var speedModifier = 0.0005
 
 	override fun init() {
 		robot.modules.forEach { it.init() }
@@ -34,18 +31,56 @@ class ControlledSimple : BBOpMode() {
 	}
 
 	override fun loop() {
-		//get<Intake>().run(0.0  )
 		when {
 			gamepad1.a -> get<Hook>().grab()
 			gamepad1.y -> get<Hook>().ungrab()
-			//gamepad1.x -> get<ArmV2Module>().grab()
-			//gamepad1.b -> get<ArmV2Module>().ungrab()
-			//gamepad1.y -> get<Lift>().float()
+			gamepad1.x -> get<ArmV3Module>().grab()
+			gamepad1.b -> get<ArmV3Module>().ungrab()
+			gamepad1.dpad_down -> get<ArmV3Module>().goDown()
+			gamepad1.dpad_up -> get<ArmV3Module>().goUp()
+
+
 			//gamepad2.right_bumper -> get<Intake>().run(1.0)
 			//gamepad2.left_bumper -> get<Intake>().run(-1.0)
-			//gamepad2.x -> get<Output>().grab()
-			//gamepad2.b -> get<Output>().ungrab()
+			gamepad2.x -> get<ServoLinear>().grab()
+			gamepad2.b -> get<ServoLinear>().ungrab()
+			//gamepad2.dpad_up -> get<DcLinear>().fwd()
+			//gamepad2.dpad_down -> get<DcLinear>().bck()
 		}
+
+		if (gamepad2.right_bumper) get<Intake>().run(1.0)
+		else if (gamepad2.left_bumper) get<Intake>().run(-1.0)
+		else get<Intake>().run(0.0)
+
+		if (gamepad2.a) get<DcLinear>().fwd()
+		else if (gamepad2.y) get<DcLinear>().bck()
+		else get<DcLinear>().stopOvr()
+
+
+		if (!get<Lift>().isBusy) {
+			if (timer.seconds() > TIME_TO_TAP) {
+				when {
+					gamepad2.dpad_left -> {
+						get<Lift>().level = 0
+						timer.reset()
+					}
+					gamepad2.dpad_right -> {
+						get<Lift>().level++
+						timer.reset()
+					}
+				}
+			}
+			when {
+				gamepad2.dpad_up -> get<Lift>().update()
+				gamepad2.dpad_down -> {
+					val oldLvl = get<Lift>().level
+					get<Lift>().level = 0
+					get<Lift>().update()
+					get<Lift>().level = oldLvl
+				}
+			}
+		}
+
 
 		/*if (gamepad1.dpad_up) {
 			maxSpeed += speedModifier
@@ -84,11 +119,12 @@ class ControlledSimple : BBOpMode() {
 		//-maxSpeed, maxSpeed)
 
 
-		get<Mecanum>().motorsWithNames.forEach({
+		get<Mecanum>().motorsWithNames.forEach {
 			telemetry.addData("MOTOR", "${it.key}: ${(it.value as DcMotor).power}")
-		})
-		telemetry.addData("Color Sensor", "${get<ColorSensorModule>().IsSkystone()}")
-		telemetry.addData("Distance Sensor", "${get<ColorSensorModule>().Distance()}")
+		}
+
+		//telemetry.addData("Color Sensor", get<ColorSensorModule>().IsSkystone())
+		//telemetry.addData("Distance Sensor", get<ColorSensorModule>().Distance())
 
 		//telemetry.addData("MAX SPEED", maxSpeed)
 		//telemetry.addData("LIFT SPEED", get<Lift>().motor.power)
@@ -96,5 +132,16 @@ class ControlledSimple : BBOpMode() {
 		//telemetry.addData("LEFT INTAKE SPEED", get<Intake>().leftMotor.power)
 		//telemetry.addData("RIGHT INTAKE SPEED", get<Intake>().rightMotor.power)
 		//telemetry.addData("OUTPUT SERVO", get<Output>().servo.position)
+
+		telemetry.addData("click time", timer.seconds())
+		telemetry.addData("selected level", get<Lift>().level)
+		telemetry.addData("actual level", get<Lift>().actualLevel)
+		telemetry.update()
+	}
+
+	companion object {
+		var timer = ElapsedTime()
+		const val TIME_TO_TAP = 0.25
+
 	}
 }

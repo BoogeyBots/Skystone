@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.test
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.Lift
 import org.firstinspires.ftc.teamcode.Robot
 import org.firstinspires.ftc.teamcode.modules.LiftModule
@@ -13,33 +14,47 @@ import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 @TeleOp(name = "Test Lift", group = "TEST")
 class TestLift : BBLinearOpMode() {
 	override val robot = Robot(this, setOf(Lift(this)))
+	var timer = ElapsedTime()
 
 	override fun runOpMode() {
 		robot.modules.forEach { it.init() }
 
 		waitForStartFixed()
 
+		while (opModeIsActive()) {
+			if (!get<Lift>().isBusy) {
+				if (timer.seconds() > TIME_TO_TAP) {
+					when {
+						gamepad1.dpad_left -> {
+							get<Lift>().level = 0
+							timer.reset()
+						}
+						gamepad1.dpad_right -> {
+							get<Lift>().level++
+							timer.reset()
+						}
+					}
+				}
 
-		get<Lift>().currentLevel++
+				when {
+					gamepad1.dpad_up -> get<Lift>().update()
+					gamepad1.dpad_down -> {
+						val oldLvl = get<Lift>().level
+						get<Lift>().level = 0
+						get<Lift>().update()
+						get<Lift>().level = oldLvl
+					}
+				}
+			}
 
-		wait(5.0)
+			telemetry.addData("click time", timer.seconds())
+			telemetry.addData("selected level", get<Lift>().level)
+			telemetry.addData("actual level", get<Lift>().actualLevel)
+			telemetry.update()
+		}
+	}
 
-		get<Lift>().currentLevel++
-
-		wait(5.0)
-
-		get<Lift>().currentLevel = 0
-
-		wait(5.0)
-
-		get<Lift>().currentLevel = 2
-
-		wait(5.0)
-
-
-		get<Lift>().currentLevel = 0
-
-		wait(5.0)
-
+	companion object {
+		const val TIME_TO_TAP = 0.5
 	}
 }

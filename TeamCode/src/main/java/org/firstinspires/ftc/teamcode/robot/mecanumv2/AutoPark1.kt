@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.Hook
 import org.firstinspires.ftc.teamcode.Mecanum
 import org.firstinspires.ftc.teamcode.Robot
