@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera
 // You don't need CommandOpMode, LinearOpMode, and other OpModes work well
 class SkystoneSample : CommandOpMode() {
     var camera: OpenCvCamera? = null
-    var pipeline: SkystoneDetector? = null
+    private var pipeline: SkystoneDetector? = null
     override fun initialize() {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
         camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId)
@@ -35,7 +35,5 @@ class SkystoneSample : CommandOpMode() {
         }
     }
 
-    fun getSkystonePos(): SkystonePosition? {
-        return pipeline!!.skystonePosition
-    }
+
 }
