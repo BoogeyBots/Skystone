@@ -11,10 +11,10 @@ class ArmV3Module(override val opMode: OpMode) : RobotModule {
 	override var components: HashMap<String, HardwareDevice> = hashMapOf()
 	val arm get() = get<Servo>("armleft")
 	val grabber get() = get<Servo>("grabberleft")
-	var upPos = 1.0
-	var downPos = 0.5583
-	var grabPos = 0.18
-	var ungrabPos = 0.3
+	var upPos = 0.84
+	var downPos = 0.50
+	var grabPos = 0.10
+	var ungrabPos = 0.380
 
 	override fun init() {
 		components["armleft"] = hardwareMap.get(Servo::class.java, "armleft")
@@ -46,6 +46,9 @@ class ArmV3Module(override val opMode: OpMode) : RobotModule {
 		arm.position = downPos
 	}
 
+	fun grabberDown() {
+		grabber.position = 0.05
+	}
 
 	companion object {
 		const val ARM_GRAB_POS = 0.5583

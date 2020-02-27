@@ -21,16 +21,19 @@ class ControlledSimple : BBOpMode() {
 			Hook(this),
 			//	ArmRight(this),
 			ArmV3Module(this),
-			Lift(this),
+			//Lift(this),
 			DcLinear(this),
 			ServoLinear(this),
-			Intake(this)
+			Intake(this),
+			LiftModuleFree(this)
 		))
 
 
 	override fun init() {
 		robot.modules.forEach { it.init() }
 		get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
+		get<ArmV3Module>().grabberDown()
+
 
 		//get<ArmRight>().setup(0.18, 0.3, 1.0, 0.5583)
 		// get<ArmLeft>().setup(0.0, 0.0, 0.0, 0.0)
@@ -50,8 +53,8 @@ class ControlledSimple : BBOpMode() {
 			//gamepad2.left_bumper -> get<Intake>().run(-1.0)
 			gamepad2.x -> get<ServoLinear>().ungrab()
 			gamepad2.b -> get<ServoLinear>().grab()
-			//gamepad1.dpad_up -> get<DcLinear>().fwd()
-			//gamepad1.dpad_down -> get<DcLinear>().bck()
+			gamepad2.dpad_up -> get<LiftModuleFree>().goUp()
+			gamepad2.dpad_down -> get<LiftModuleFree>().goDown()
 		}
 
 		if (gamepad2.right_bumper) get<Intake>().run(1.0)
@@ -62,6 +65,7 @@ class ControlledSimple : BBOpMode() {
 		else if (gamepad2.y) get<DcLinear>().bck()
 		else get<DcLinear>().stopOvr()
 
+		/*
 
 		if (!get<Lift>().isBusy) {
 			if (timer.seconds() > TIME_TO_TAP) {
@@ -87,6 +91,8 @@ class ControlledSimple : BBOpMode() {
 			}
 		}
 
+*/
+
 
 		/*if (gamepad1.dpad_up) {
 			maxSpeed += speedModifier
@@ -103,6 +109,7 @@ class ControlledSimple : BBOpMode() {
 
 
 		 */
+
 		get<Mecanum>().motorsWithNames.forEach { (name, motor) ->
 			motor.power = Range.clip((gamepad1.left_trigger) - gamepad1.right_trigger +
 				when (name) {
@@ -140,10 +147,10 @@ class ControlledSimple : BBOpMode() {
 		//telemetry.addData("OUTPUT SERVO", get<Output>().servo.position)
 
 		telemetry.addData("click time", timer.seconds())
-		telemetry.addData("selected level", get<Lift>().level)
-		telemetry.addData("actual level", get<Lift>().actualLevel)
-		telemetry.addData("CurrentPosition", get<Lift>().motor.currentPosition)
-		telemetry.addData("TargetPositon", get<Lift>().motor.targetPosition)
+		//telemetry.addData("selected level", get<Lift>().level)
+		//telemetry.addData("actual level", get<Lift>().actualLevel)
+		telemetry.addData("CurrentPosition", get<LiftModuleFree>().motor.currentPosition)
+		telemetry.addData("TargetPositon", get<LiftModuleFree>().motor.targetPosition)
 		telemetry.addData("ServoPosition", get<ServoLinear>().servolinear.position)
 		telemetry.update()
 	}
