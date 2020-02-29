@@ -21,8 +21,8 @@ class TestServoNicu : BBLinearOpMode() {
 
     override fun runOpMode() {
         val servoMod = robot.modules.first()
-        servoMod.components["servo1"] = hardwareMap.get(Servo::class.java, "armright")
-        servoMod.components["servo2"] = hardwareMap.get(Servo::class.java, "grabberright")
+	    servoMod.components["servo1"] = hardwareMap.get(Servo::class.java, "armleft")
+	    servoMod.components["servo2"] = hardwareMap.get(Servo::class.java, "grabberleft")
 
         val servo1 = get<TestModule>().get<Servo>("servo1")
         val servo2 = get<TestModule>().get<Servo>("servo2")

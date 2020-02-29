@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.opmode.BBLinearOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 
-@Autonomous(name="AUTO PARK (DUTE STANGA)", group="SKYSTONE")
+@Autonomous(name = "AUTO PARK BLUE", group = "SKYSTONE")
 class AutoPark1 : BBLinearOpMode() {
 	override val robot: Robot = Robot(this, setOf(Mecanum(this)))
 	override fun runOpMode() {
@@ -17,8 +17,7 @@ class AutoPark1 : BBLinearOpMode() {
 
 		waitForStartFixed()
 
-		get<Mecanum>().sideways(24.0, timeout = 5.0)
-		get<Mecanum>().sideways(-24.0, timeout = 5.0)
+		get<Mecanum>().forward(-32.0, timeout = 5.0)
 
 		//RISC
 		/*get<Mecanum>().sideways(-24.0 - 9.0, timeout = 5.0)
