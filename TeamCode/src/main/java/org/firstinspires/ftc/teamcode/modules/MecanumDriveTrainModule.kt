@@ -23,8 +23,9 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 
 	    motors.forEach {
 		    it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-		    it.setVelocityPIDFCoefficients(1.5, 1.0, 0.8, 0.0) // original: 2.0, 0.5, 0.0, 11.100006
-		    it.setPositionPIDFCoefficients(2.6) // original: 5.0
+		    //it.setVelocityPIDFCoefficients(1.5, 1.0, 0.8, 0.0) // original: 2.0, 0.5, 0.0, 11.100006
+		    //it.setVelocityPIDFCoefficients(15.0, 0.0, 0.0, 0.0)
+		    //it.setPositionPIDFCoefficients(1.0) // original: 5.0
 	    }
 
     }
@@ -60,8 +61,8 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 	    motorsWithNames["lb"]!!.direction = DcMotorSimple.Direction.FORWARD
 	    motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.REVERSE
 	    motors.forEach {
-		    it.setVelocityPIDFCoefficients(1.5, 0.8, 0.7, 13.0) // original: 2.0, 0.5, 0.0, 11.100006
-		    it.setPositionPIDFCoefficients(5.0)
+		    it.setVelocityPIDFCoefficients(1.5, 0.8, 0.7, 10.0) // original: 2.0, 0.5, 0.0, 11.100006
+		    it.setPositionPIDFCoefficients(6.0)
 	    }
 
         encoderDrive(inches, power, timeout)
@@ -73,8 +74,8 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 		motorsWithNames["lb"]!!.direction = DcMotorSimple.Direction.REVERSE
 		motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.REVERSE
 		motors.forEach {
-			it.setVelocityPIDFCoefficients(1.5, 0.8, 0.7, 13.0) // original: 2.0, 0.5, 0.0, 11.100006
-			it.setPositionPIDFCoefficients(5.0)
+			it.setVelocityPIDFCoefficients(1.5, 0.8, 0.7, 10.0) // original: 2.0, 0.5, 0.0, 11.100006
+			it.setPositionPIDFCoefficients(6.0)
 		}
 
 		encoderDrive(inches, power, timeout)

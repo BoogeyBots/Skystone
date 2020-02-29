@@ -65,13 +65,13 @@ class ControlledSimple : BBOpMode() {
 		else if (gamepad2.y) get<DcLinear>().bck()
 		else get<DcLinear>().stopOvr()
 
-		/*
+
 
 		if (!get<Lift>().isBusy) {
 			if (timer.seconds() > TIME_TO_TAP) {
 				when {
 					gamepad2.dpad_left -> {
-						get<Lift>().level = 1
+						get<Lift>().level--
 						timer.reset()
 					}
 					gamepad2.dpad_right -> {
@@ -90,8 +90,6 @@ class ControlledSimple : BBOpMode() {
 				}
 			}
 		}
-
-*/
 
 
 		/*if (gamepad1.dpad_up) {

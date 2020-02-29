@@ -43,11 +43,13 @@ import android.content.res.Resources;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +62,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.google.blocks.ftcrobotcontroller.ProgrammingWebHandlers;
 import com.google.blocks.ftcrobotcontroller.runtime.BlocksOpMode;
 import com.qualcomm.ftccommon.ClassManagerFactory;
@@ -252,136 +255,142 @@ public class FtcRobotControllerActivity extends Activity
     permissionsValidated = true;
   }
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    if (enforcePermissionValidator()) {
-      return;
-    }
-
-    RobotLog.onApplicationStart();  // robustify against onCreate() following onDestroy() but using the same app instance, which apparently does happen
-    RobotLog.vv(TAG, "onCreate()");
-    ThemedActivity.appAppThemeToActivity(getTag(), this); // do this way instead of inherit to help AppInventor
-
-    // Oddly, sometimes after a crash & restart the root activity will be something unexpected, like from the before crash? We don't yet understand
-    RobotLog.vv(TAG, "rootActivity is of class %s", AppUtil.getInstance().getRootActivity().getClass().getSimpleName());
-    RobotLog.vv(TAG, "launchActivity is of class %s", FtcRobotControllerWatchdogService.launchActivity());
-    Assert.assertTrue(FtcRobotControllerWatchdogService.isLaunchActivity(AppUtil.getInstance().getRootActivity()));
-    Assert.assertTrue(AppUtil.getInstance().isRobotController());
-
-    // Quick check: should we pretend we're not here, and so allow the Lynx to operate as
-    // a stand-alone USB-connected module?
-    if (LynxConstants.isRevControlHub()) {
-      if (LynxConstants.shouldDisableAndroidBoard()) {
-        // Double-sure check that the Lynx Module can operate over USB, etc, then get out of Dodge
-        RobotLog.vv(TAG, "disabling Dragonboard and exiting robot controller");
-        AndroidBoard.getInstance().getAndroidBoardIsPresentPin().setState(false);
-        AppUtil.getInstance().finishRootActivityAndExitApp();
-      } else {
-        // Double-sure check that we can talk to the DB over the serial TTY
-        AndroidBoard.getInstance().getAndroidBoardIsPresentPin().setState(true);
-      }
-    }
-
-    context = this;
-    utility = new Utility(this);
-
-    DeviceNameManagerFactory.getInstance().start(deviceNameStartResult);
-
-    PreferenceRemoterRC.getInstance().start(prefRemoterStartResult);
-
-    receivedUsbAttachmentNotifications = new ConcurrentLinkedQueue<UsbDevice>();
-    eventLoop = null;
-
-    setContentView(R.layout.activity_ftc_controller);
-
-    preferencesHelper = new PreferencesHelper(TAG, context);
-    preferencesHelper.writeBooleanPrefIfDifferent(context.getString(R.string.pref_rc_connected), true);
-    preferencesHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(sharedPreferencesListener);
-
-    entireScreenLayout = (LinearLayout) findViewById(R.id.entire_screen);
-    buttonMenu = (ImageButton) findViewById(R.id.menu_buttons);
-    buttonMenu.setOnClickListener(new View.OnClickListener() {
+      @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
       @Override
-      public void onClick(View v) {
-        PopupMenu popupMenu = new PopupMenu(FtcRobotControllerActivity.this, v);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-          @Override
-          public boolean onMenuItemClick(MenuItem item) {
-            return onOptionsItemSelected(item); // Delegate to the handler for the hardware menu button
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+
+
+          if (enforcePermissionValidator()) {
+              return;
           }
-        });
-        popupMenu.inflate(R.menu.ftc_robot_controller);
-        popupMenu.show();
+
+          RobotLog.onApplicationStart();  // robustify against onCreate() following onDestroy() but using the same app instance, which apparently does happen
+          RobotLog.vv(TAG, "onCreate()");
+          ThemedActivity.appAppThemeToActivity(getTag(), this); // do this way instead of inherit to help AppInventor
+
+          // Oddly, sometimes after a crash & restart the root activity will be something unexpected, like from the before crash? We don't yet understand
+          RobotLog.vv(TAG, "rootActivity is of class %s", AppUtil.getInstance().getRootActivity().getClass().getSimpleName());
+          RobotLog.vv(TAG, "launchActivity is of class %s", FtcRobotControllerWatchdogService.launchActivity());
+          Assert.assertTrue(FtcRobotControllerWatchdogService.isLaunchActivity(AppUtil.getInstance().getRootActivity()));
+          Assert.assertTrue(AppUtil.getInstance().isRobotController());
+
+          // Quick check: should we pretend we're not here, and so allow the Lynx to operate as
+          // a stand-alone USB-connected module?
+          if (LynxConstants.isRevControlHub()) {
+              if (LynxConstants.shouldDisableAndroidBoard()) {
+                  // Double-sure check that the Lynx Module can operate over USB, etc, then get out of Dodge
+                  RobotLog.vv(TAG, "disabling Dragonboard and exiting robot controller");
+                  AndroidBoard.getInstance().getAndroidBoardIsPresentPin().setState(false);
+                  AppUtil.getInstance().finishRootActivityAndExitApp();
+              } else {
+                  // Double-sure check that we can talk to the DB over the serial TTY
+                  AndroidBoard.getInstance().getAndroidBoardIsPresentPin().setState(true);
+              }
+          }
+
+          context = this;
+          utility = new Utility(this);
+
+          DeviceNameManagerFactory.getInstance().start(deviceNameStartResult);
+
+          PreferenceRemoterRC.getInstance().start(prefRemoterStartResult);
+
+          receivedUsbAttachmentNotifications = new ConcurrentLinkedQueue<UsbDevice>();
+          eventLoop = null;
+
+          setContentView(R.layout.activity_ftc_controller);
+
+          preferencesHelper = new PreferencesHelper(TAG, context);
+          preferencesHelper.writeBooleanPrefIfDifferent(context.getString(R.string.pref_rc_connected), true);
+          preferencesHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(sharedPreferencesListener);
+
+          entireScreenLayout = (LinearLayout) findViewById(R.id.entire_screen);
+          buttonMenu = (ImageButton) findViewById(R.id.menu_buttons);
+          buttonMenu.setOnClickListener(new View.OnClickListener() {
+              @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+              @Override
+              public void onClick(View v) {
+                  PopupMenu popupMenu = new PopupMenu(FtcRobotControllerActivity.this, v);
+                  popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                      @Override
+                      public boolean onMenuItemClick(MenuItem item) {
+                          return onOptionsItemSelected(item); // Delegate to the handler for the hardware menu button
+                      }
+                  });
+                  popupMenu.inflate(R.menu.ftc_robot_controller);
+                  FtcDashboard.populateMenu(popupMenu.getMenu());
+                  popupMenu.show();
+              }
+          });
+
+          updateMonitorLayout(getResources().getConfiguration());
+
+          BlocksOpMode.setActivityAndWebView(this, (WebView) findViewById(R.id.webViewBlocksRuntime));
+
+          /*
+           * Paranoia as the ClassManagerFactory requires EXTERNAL_STORAGE permissions
+           * and we've seen on the DS where the finish() call above does not short-circuit
+           * the onCreate() call for the activity and then we crash here because we don't
+           * have permissions. So...
+           */
+          if (permissionsValidated) {
+              ClassManager.getInstance().setOnBotJavaClassHelper(new OnBotJavaHelperImpl());
+              ClassManagerFactory.registerFilters();
+              ClassManagerFactory.processAllClasses();
+          }
+
+          cfgFileMgr = new RobotConfigFileManager(this);
+
+          // Clean up 'dirty' status after a possible crash
+          RobotConfigFile configFile = cfgFileMgr.getActiveConfig();
+          if (configFile.isDirty()) {
+              configFile.markClean();
+              cfgFileMgr.setActiveConfig(false, configFile);
+          }
+
+          textDeviceName = (TextView) findViewById(R.id.textDeviceName);
+          textNetworkConnectionStatus = (TextView) findViewById(R.id.textNetworkConnectionStatus);
+          textRobotStatus = (TextView) findViewById(R.id.textRobotStatus);
+          textOpMode = (TextView) findViewById(R.id.textOpMode);
+          textErrorMessage = (TextView) findViewById(R.id.textErrorMessage);
+          textGamepad[0] = (TextView) findViewById(R.id.textGamepad1);
+          textGamepad[1] = (TextView) findViewById(R.id.textGamepad2);
+          immersion = new ImmersiveMode(getWindow().getDecorView());
+          dimmer = new Dimmer(this);
+          dimmer.longBright();
+
+          programmingModeManager = new ProgrammingModeManager();
+          programmingModeManager.register(new ProgrammingWebHandlers());
+          programmingModeManager.register(new OnBotJavaProgrammingMode());
+
+          updateUI = createUpdateUI();
+          callback = createUICallback(updateUI);
+
+          PreferenceManager.setDefaultValues(this, R.xml.app_settings, false);
+
+          WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+          wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "");
+
+          hittingMenuButtonBrightensScreen();
+
+          wifiLock.acquire();
+          callback.networkConnectionUpdate(NetworkConnection.NetworkEvent.DISCONNECTED);
+          readNetworkType();
+          ServiceController.startService(FtcRobotControllerWatchdogService.class);
+          bindToService();
+          logPackageVersions();
+          logDeviceSerialNumber();
+          AndroidBoard.getInstance().logAndroidBoardInfo();
+          RobotLog.logDeviceInfo();
+
+          if (preferencesHelper.readBoolean(getString(R.string.pref_wifi_automute), false)) {
+              initWifiMute(true);
+          }
+
+          FtcDashboard.start();
+
       }
-    });
-
-    updateMonitorLayout(getResources().getConfiguration());
-
-    BlocksOpMode.setActivityAndWebView(this, (WebView) findViewById(R.id.webViewBlocksRuntime));
-
-    /*
-     * Paranoia as the ClassManagerFactory requires EXTERNAL_STORAGE permissions
-     * and we've seen on the DS where the finish() call above does not short-circuit
-     * the onCreate() call for the activity and then we crash here because we don't
-     * have permissions. So...
-     */
-    if (permissionsValidated) {
-      ClassManager.getInstance().setOnBotJavaClassHelper(new OnBotJavaHelperImpl());
-      ClassManagerFactory.registerFilters();
-      ClassManagerFactory.processAllClasses();
-    }
-
-    cfgFileMgr = new RobotConfigFileManager(this);
-
-    // Clean up 'dirty' status after a possible crash
-    RobotConfigFile configFile = cfgFileMgr.getActiveConfig();
-    if (configFile.isDirty()) {
-      configFile.markClean();
-      cfgFileMgr.setActiveConfig(false, configFile);
-    }
-
-    textDeviceName = (TextView) findViewById(R.id.textDeviceName);
-    textNetworkConnectionStatus = (TextView) findViewById(R.id.textNetworkConnectionStatus);
-    textRobotStatus = (TextView) findViewById(R.id.textRobotStatus);
-    textOpMode = (TextView) findViewById(R.id.textOpMode);
-    textErrorMessage = (TextView) findViewById(R.id.textErrorMessage);
-    textGamepad[0] = (TextView) findViewById(R.id.textGamepad1);
-    textGamepad[1] = (TextView) findViewById(R.id.textGamepad2);
-    immersion = new ImmersiveMode(getWindow().getDecorView());
-    dimmer = new Dimmer(this);
-    dimmer.longBright();
-
-    programmingModeManager = new ProgrammingModeManager();
-    programmingModeManager.register(new ProgrammingWebHandlers());
-    programmingModeManager.register(new OnBotJavaProgrammingMode());
-
-    updateUI = createUpdateUI();
-    callback = createUICallback(updateUI);
-
-    PreferenceManager.setDefaultValues(this, R.xml.app_settings, false);
-
-    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-    wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "");
-
-    hittingMenuButtonBrightensScreen();
-
-    wifiLock.acquire();
-    callback.networkConnectionUpdate(NetworkConnection.NetworkEvent.DISCONNECTED);
-    readNetworkType();
-    ServiceController.startService(FtcRobotControllerWatchdogService.class);
-    bindToService();
-    logPackageVersions();
-    logDeviceSerialNumber();
-    AndroidBoard.getInstance().logAndroidBoardInfo();
-    RobotLog.logDeviceInfo();
-
-    if (preferencesHelper.readBoolean(getString(R.string.pref_wifi_automute), false)) {
-      initWifiMute(true);
-    }
-
-  }
 
   protected UpdateUI createUpdateUI() {
     Restarter restarter = new RobotRestarter();
@@ -461,6 +470,8 @@ public class FtcRobotControllerActivity extends Activity
 
     RobotLog.cancelWriteLogcatToDisk();
 
+      FtcDashboard.stop();
+
   }
 
   protected void bindToService() {
@@ -533,6 +544,7 @@ public class FtcRobotControllerActivity extends Activity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.ftc_robot_controller, menu);
+      FtcDashboard.populateMenu(menu);
     return true;
   }
 
@@ -709,7 +721,7 @@ public class FtcRobotControllerActivity extends Activity
     passReceivedUsbAttachmentsToEventLoop();
     AndroidBoard.showErrorIfUnknownControlHub();
 
-
+      FtcDashboard.attachEventLoop(eventLoop);
   }
 
   protected OpModeRegister createOpModeRegister() {
@@ -755,19 +767,20 @@ public class FtcRobotControllerActivity extends Activity
     }
   }
 
-  protected void hittingMenuButtonBrightensScreen() {
-    ActionBar actionBar = getActionBar();
-    if (actionBar != null) {
-      actionBar.addOnMenuVisibilityListener(new ActionBar.OnMenuVisibilityListener() {
-        @Override
-        public void onMenuVisibilityChanged(boolean isVisible) {
-          if (isVisible) {
-            dimmer.handleDimTimer();
+      @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+      protected void hittingMenuButtonBrightensScreen() {
+          ActionBar actionBar = getActionBar();
+          if (actionBar != null) {
+              actionBar.addOnMenuVisibilityListener(new ActionBar.OnMenuVisibilityListener() {
+                  @Override
+                  public void onMenuVisibilityChanged(boolean isVisible) {
+                      if (isVisible) {
+                          dimmer.handleDimTimer();
+                      }
+                  }
+              });
           }
-        }
-      });
-    }
-  }
+      }
 
   protected class SharedPreferencesListener implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

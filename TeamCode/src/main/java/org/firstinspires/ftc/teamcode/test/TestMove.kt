@@ -11,19 +11,19 @@ import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 @Autonomous(name = "TEST: Move", group = "TEST")
 class TestMove : BBLinearOpMode() {
 	override val robot = Robot(this, setOf(Mecanum(this)))
-	val power = 0.6
+	val power = 0.95
 	override fun runOpMode() {
 		robot.modules.forEach { it.init() }
 
 		waitForStartFixed()
 
-		get<Mecanum>().forward(48.0, power, timeout = 5.0)
+		get<Mecanum>().forward(4 * 24.0, power, timeout = 5.0)
 		wait(0.5)
-		get<Mecanum>().forward(-48.0, power, timeout = 5.0)
-		wait(0.5)
-		get<Mecanum>().forward(24.0, power, 5.0)
-		wait(0.5)
-		get<Mecanum>().forward(-24.0, power, 5.0)
+		get<Mecanum>().forward(-4 * 24.0, power, timeout = 5.0)
+		//wait(0.5)
+		//get<Mecanum>().forward(24.0, power, 5.0)
+		//wait(0.5)
+		//get<Mecanum>().forward(-24.0, power, 5.0)
 
 
 /*

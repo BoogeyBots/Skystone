@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.mecanumv2
 
 
+import com.acmerobotics.roadrunner.control.PIDFController
 import com.arcrobotics.ftclib.vision.SkystoneDetector.SkystonePosition
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.Arm
@@ -18,6 +19,7 @@ class Auto2SkystoneBlue : BBLinearOpMode() {
 	override val robot: Robot = Robot(this, setOf(Hook(this), Mecanum(this), ArmV3Module(this), OpenCvModule(this)))
 	private var pos = 0
 	private val pwr = 0.7
+
 	override fun runOpMode() {
 		robot.modules.forEach { it.init() }
 
@@ -31,7 +33,7 @@ class Auto2SkystoneBlue : BBLinearOpMode() {
 		}
 
 		// MA DUC LA STONE
-		get<Mecanum>().sideways(-31.0, pwr, timeout = 2.0)
+		get<Mecanum>().sideways(-29.0, pwr, timeout = 2.0)
 		get<Mecanum>().forward(-10.0 + (pos * 8), pwr, timeout = 2.0)
 
 		// PRIND SKYSTONU
@@ -43,16 +45,16 @@ class Auto2SkystoneBlue : BBLinearOpMode() {
 		wait(0.3)
 
 		// MA DUC LA TAVA
-		get<Mecanum>().sideways(7.0, 0.5, timeout = 2.0)
-		get<Mecanum>().forward((-24.0 * 3.1) - (pos * 8), pwr, timeout = 3.0)
+		get<Mecanum>().sideways(7.0, pwr, timeout = 2.0)
+		get<Mecanum>().forward((-24.0 * 3.1) - (pos * 8) + 2.0, pwr, timeout = 3.0)
 		get<Mecanum>().sideways(-7.0, pwr, timeout = 2.0)
 
 		// DAU DRUMU LA STON
 
 		get<ArmV3Module>().ungrab()
 
-		get<Mecanum>().sideways(7.0, 0.5, 2.0)
-		get<Mecanum>().forward(24.1 * 4.1 + pos * 8, pwr, 5.0)
+		get<Mecanum>().sideways(7.0, pwr, 2.0)
+		get<Mecanum>().forward(24.1 * 4.1 + pos * 8 + 2.0, pwr, 5.0)
 		get<Mecanum>().sideways(-7.0, pwr, 2.0)
 
 		get<ArmV3Module>().goDown()
@@ -61,7 +63,7 @@ class Auto2SkystoneBlue : BBLinearOpMode() {
 		wait(0.2)
 		get<ArmV3Module>().goUp()
 		get<Mecanum>().sideways(6.0, pwr, 2.0)
-		get<Mecanum>().forward(-24.0 * 4.6, pwr, 4.0)
+		get<Mecanum>().forward(-24.0 * 4.25, pwr, 4.0)
 		get<Mecanum>().sideways(-7.0, pwr, 2.0)
 		get<ArmV3Module>().ungrab()
 

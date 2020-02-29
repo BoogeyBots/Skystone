@@ -34,7 +34,7 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 				else -> value
 			}
 
-			motor.targetPosition = targets.take(field).sum().toInt()
+			motor.targetPosition = targets[field].toInt()
 			if (oldLevel > field && field == 0) {
 				motor.targetPosition += 20
 			}
