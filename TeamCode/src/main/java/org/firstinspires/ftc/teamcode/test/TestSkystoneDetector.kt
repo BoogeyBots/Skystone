@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.test
 
 
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 
@@ -18,6 +19,7 @@ import java.util.Locale
  * Derived Work Copyright(c) 2019 DogeDevs
  */
 @TeleOp(name = "Skystone Detector OpMode", group = "DogeCV")
+@Disabled
 class SkystoneDetectorExample : LinearOpMode() {
 	private var phoneCam: OpenCvCamera? = null
 	private var skyStoneDetector: SkystoneDetector? = null
@@ -32,7 +34,7 @@ class SkystoneDetectorExample : LinearOpMode() {
          * single-parameter constructor instead (commented out below)
          */
 		val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
-		phoneCam = OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId)
+		//phoneCam = OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId)
 
 		// OR...  Do Not Activate the Camera Monitor View
 		//phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);

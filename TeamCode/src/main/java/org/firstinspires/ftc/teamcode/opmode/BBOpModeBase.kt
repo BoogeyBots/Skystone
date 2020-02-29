@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode
 
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.mecanumV2_module.RobotModule
+import org.firstinspires.ftc.teamcode.modules.RobotModule
 
 interface BBOpModeBase  {
     val robot: Robot

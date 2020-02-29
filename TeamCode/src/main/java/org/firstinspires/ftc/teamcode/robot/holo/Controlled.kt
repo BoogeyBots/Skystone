@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.robot.holo
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.Holonomic
 import org.firstinspires.ftc.teamcode.Robot
-import org.firstinspires.ftc.teamcode.modules.obsolete.HoloGrabber
-import org.firstinspires.ftc.teamcode.modules.obsolete.HoloHook
+import org.firstinspires.ftc.teamcode.modules.HoloGrabber
+import org.firstinspires.ftc.teamcode.modules.HoloHook
 import org.firstinspires.ftc.teamcode.opmode.BBOpMode
 import org.firstinspires.ftc.teamcode.opmode.get
 
 @TeleOp(name = "HOLO: CONTROLLED", group = "SKYSTONE HOLO")
+@Disabled
 class Controlled : BBOpMode()  {
 	override val robot = Robot(this, setOf(Holonomic(this), HoloGrabber(this), HoloHook(this)))
 
