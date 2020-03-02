@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.test;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.vision.SkystoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -18,8 +20,11 @@ public class TestOpenCv extends CommandOpMode {
     OpenCvCamera camera;
     SkystoneDetector pipeline;
 
+
+
     @Override
     public void initialize() {
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
@@ -29,6 +34,7 @@ public class TestOpenCv extends CommandOpMode {
 
         camera.setPipeline(pipeline);
         camera.startStreaming(640, 480, OpenCvCameraRotation.SIDEWAYS_LEFT);
+
     }
 
     @Override
@@ -47,7 +53,8 @@ public class TestOpenCv extends CommandOpMode {
                 break;
         }
 
-        telemetry.addData("Position", "${position}");
+        //telemetry.addData("Position", "${position}");
+
     }
 
 }

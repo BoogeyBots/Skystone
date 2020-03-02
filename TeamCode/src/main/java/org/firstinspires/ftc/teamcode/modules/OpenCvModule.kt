@@ -23,6 +23,7 @@ class OpenCvModule(override val opMode: OpMode) : RobotModule {
 		pipeline = SkystoneDetector(40.0, 25.0, 50.0, 40.0)
 		camera!!.setPipeline(pipeline)
 		camera!!.startStreaming(640, 480, OpenCvCameraRotation.SIDEWAYS_LEFT)
+
 	}
 
 	fun run(): SkystonePosition? {

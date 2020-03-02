@@ -66,7 +66,7 @@ class ControlledSimple : BBOpMode() {
 		else get<DcLinear>().stopOvr()
 
 
-
+/*
 		if (!get<Lift>().isBusy) {
 			if (timer.seconds() > TIME_TO_TAP) {
 				when {
@@ -90,7 +90,7 @@ class ControlledSimple : BBOpMode() {
 				}
 			}
 		}
-
+*/
 
 		/*if (gamepad1.dpad_up) {
 			maxSpeed += speedModifier
