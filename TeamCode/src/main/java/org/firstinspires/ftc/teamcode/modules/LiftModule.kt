@@ -13,13 +13,13 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 	val motor get() = get<DcMotorEx>("lift")
 	val isBusy get() = motor.isBusy
 	val maxPower: Double = 0.25
-	val targets = listOf(0.0 * COUNTS_PER_REV, 0.50 * COUNTS_PER_REV, 0.35 * COUNTS_PER_REV, 0.35 * COUNTS_PER_REV, 0.38 * COUNTS_PER_REV, 0.20 * COUNTS_PER_REV)
+	val targets = listOf(0.0, 280.0, 475.0, 700.0, 920.0)
 	val maxLevel get() = targets.size
 	var level = 0
 		set(value) {
 			field = when {
 				value < 0 -> 0
-				value > maxLevel -> maxLevel
+				value >= maxLevel -> maxLevel - 1
 				else -> value
 			}
 		}
@@ -30,7 +30,7 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 
 			field = when {
 				value < 0 -> 0
-				value > maxLevel -> maxLevel
+				value >= maxLevel -> maxLevel - 1
 				else -> value
 			}
 
@@ -52,6 +52,8 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 		motor.mode = DcMotor.RunMode.RUN_TO_POSITION
 		motor.setVelocityPIDFCoefficients(5.0, 4.0, 2.0, 0.0)
 		//motor.targetPosition = (0.05 * COUNTS_PER_REV).toInt()
+
+		actualLevel = 0
 	}
 
 	fun update() {
