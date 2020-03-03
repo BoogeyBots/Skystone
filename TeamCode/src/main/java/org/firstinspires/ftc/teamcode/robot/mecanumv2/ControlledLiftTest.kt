@@ -36,8 +36,10 @@ class ControlledSimpleLift : BBOpMode() {
 
 	override fun init() {
 		robot.modules.forEach { it.init() }
-		get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
+		get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+		}
 		get<ArmV3Module>().grabberDown()
+
 
 
 		//get<ArmRight>().setup(0.18, 0.3, 1.0, 0.5583)

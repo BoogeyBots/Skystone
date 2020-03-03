@@ -61,7 +61,7 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 	    motorsWithNames["lb"]!!.direction = DcMotorSimple.Direction.FORWARD
 	    motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.REVERSE
 	    motors.forEach {
-		    it.setVelocityPIDFCoefficients(1.5, 0.8, 0.7, 10.0) // original: 2.0, 0.5, 0.0, 11.100006
+		    it.setVelocityPIDFCoefficients(1.6, 0.9, 0.6, 12.0) // original: 2.0, 0.5, 0.0, 11.100006
 		    it.setPositionPIDFCoefficients(6.0)
 	    }
 
@@ -74,7 +74,7 @@ class MecanumDriveTrainModule(override val opMode: OpMode) : DriveTrainModule() 
 		motorsWithNames["lb"]!!.direction = DcMotorSimple.Direction.REVERSE
 		motorsWithNames["rb"]!!.direction = DcMotorSimple.Direction.REVERSE
 		motors.forEach {
-			it.setVelocityPIDFCoefficients(1.5, 0.8, 0.7, 10.0) // original: 2.0, 0.5, 0.0, 11.100006
+			it.setVelocityPIDFCoefficients(1.6, 0.9, 0.6, 10.0) // original: 2.0, 0.5, 0.0, 11.100006
 			it.setPositionPIDFCoefficients(6.0)
 		}
 

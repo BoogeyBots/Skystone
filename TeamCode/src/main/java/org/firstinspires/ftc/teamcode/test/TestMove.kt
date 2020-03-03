@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.test
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Mecanum
 import org.firstinspires.ftc.teamcode.Robot
 import org.firstinspires.ftc.teamcode.opmode.BBLinearOpMode
@@ -20,10 +19,10 @@ class TestMove : BBLinearOpMode() {
 		get<Mecanum>().forward(4 * 24.0, power, timeout = 5.0)
 		wait(0.5)
 		get<Mecanum>().forward(-4 * 24.0, power, timeout = 5.0)
-		//wait(0.5)
-		//get<Mecanum>().forward(24.0, power, 5.0)
-		//wait(0.5)
-		//get<Mecanum>().forward(-24.0, power, 5.0)
+		wait(0.5)
+		get<Mecanum>().forward(24.0, power, 5.0)
+		wait(0.5)
+		get<Mecanum>().forward(-24.0, power, 5.0)
 
 
 /*

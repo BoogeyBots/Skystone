@@ -29,7 +29,7 @@ class ControlledSimple : BBOpMode() {
 		))
 
 
-	override fun init() {
+	override fun init() { 
 		robot.modules.forEach { it.init() }
 		get<Mecanum>().motors.forEach { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
 		get<ArmV3Module>().grabberDown()

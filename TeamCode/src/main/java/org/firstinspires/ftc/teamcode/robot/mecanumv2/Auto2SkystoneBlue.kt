@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 class Auto2SkystoneBlue : BBLinearOpMode() {
 	override val robot: Robot = Robot(this, setOf(Hook(this), Mecanum(this), ArmV3Module(this), OpenCvModule(this)))
 	private var pos = 0
-	private val pwr = 0.7
+	private val pwr = 0.8
 
 	override fun runOpMode() {
 		robot.modules.forEach { it.init() }
@@ -47,15 +47,15 @@ class Auto2SkystoneBlue : BBLinearOpMode() {
 		// MA DUC LA TAVA
 		get<Mecanum>().sideways(7.0, pwr, timeout = 2.0)
 		get<Mecanum>().forward((-24.0 * 3.1) - (pos * 8) + 2.0, pwr, timeout = 3.0)
-		get<Mecanum>().sideways(-7.0, pwr, timeout = 2.0)
+		get<Mecanum>().sideways(-8.5, pwr, timeout = 2.0)
 
 		// DAU DRUMU LA STON
 
 		get<ArmV3Module>().ungrab()
 
-		get<Mecanum>().sideways(7.0, pwr, 2.0)
-		get<Mecanum>().forward(24.1 * 4.1 + pos * 8 + 2.0, pwr, 5.0)
-		get<Mecanum>().sideways(-7.0, pwr, 2.0)
+		get<Mecanum>().sideways(8.5, pwr, 2.0)
+		get<Mecanum>().forward(24.1 * 4.1 + pos * 8 , pwr, 5.0)
+		get<Mecanum>().sideways(-3.0, pwr, 2.0)
 
 		get<ArmV3Module>().goDown()
 		wait(0.2)
@@ -64,7 +64,7 @@ class Auto2SkystoneBlue : BBLinearOpMode() {
 		get<ArmV3Module>().goUp()
 		get<Mecanum>().sideways(6.0, pwr, 2.0)
 		get<Mecanum>().forward(-24.0 * 4.25, pwr, 4.0)
-		get<Mecanum>().sideways(-7.0, pwr, 2.0)
+		get<Mecanum>().sideways(-8.0, pwr, 2.0)
 		get<ArmV3Module>().ungrab()
 
 
@@ -81,7 +81,11 @@ class Auto2SkystoneBlue : BBLinearOpMode() {
 		// O MUT
 		//get<Mecanum>().sideways(-5.0, power = 0.9, timeout = 3.0)
 		get<Mecanum>().forward(31.0, pwr, timeout = 2.0)
-		get<Mecanum>().rotate(160.0, pwr, timeout = 4.0)
+		get<Mecanum>().rotate(199.5, pwr, timeout = 4.0)
+
+		get<Hook>().ungrab()
+		//get<Mecanum>().sideways(-10.0, pwr, timeout = 4.0)
+		get<Mecanum>().forward(40.0, pwr, timeout = 4.0)
 
 		/*
 		// DAU DRUMU LA TAVA
