@@ -16,13 +16,12 @@ class TestMove : BBLinearOpMode() {
 
 		waitForStartFixed()
 
-		get<Mecanum>().forward(4 * 24.0, power, timeout = 5.0)
+		get<Mecanum>().forward(-72.0, power, timeout = 5.0)
 		wait(0.5)
-		get<Mecanum>().forward(-4 * 24.0, power, timeout = 5.0)
+		get<Mecanum>().rotate(-90.0, power, timeout = 5.0)
 		wait(0.5)
-		get<Mecanum>().forward(24.0, power, 5.0)
+		get<Mecanum>().sideways(-72.0, power, 5.0)
 		wait(0.5)
-		get<Mecanum>().forward(-24.0, power, 5.0)
 
 
 /*

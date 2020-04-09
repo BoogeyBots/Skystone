@@ -24,8 +24,8 @@ class ControlledSimpleLift : BBOpMode() {
 			Lift(this),
 			DcLinear(this),
 			ServoLinear(this),
-			Intake(this)
-			//LiftModuleFree(this)
+			Intake(this),
+			CapstoneModule(this)
 		))
 
 	val maxMaxSpeed = 1.0
@@ -54,6 +54,8 @@ class ControlledSimpleLift : BBOpMode() {
 //			gamepad1.b -> get<ArmRight>().ungrab()
 //			gamepad1.dpad_down -> get<ArmRight>().goDown()
 //			gamepad1.dpad_up -> get<ArmRight>().goUp()
+			gamepad1.b -> get<CapstoneModule>().put()
+			gamepad1.x -> get<CapstoneModule>().not_put()
 
 
 			//gamepad2.right_bumper -> get<Intake>().run(1.0)

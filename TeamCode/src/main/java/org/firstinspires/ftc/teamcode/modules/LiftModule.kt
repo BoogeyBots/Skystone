@@ -13,7 +13,7 @@ class LiftModule(override val opMode: OpMode) : RobotModule {
 	val motor get() = get<DcMotorEx>("lift")
 	val isBusy get() = motor.isBusy
 	val maxPower: Double = 0.25
-	val targets = listOf(0.0, 280.0, 475.0, 700.0, 920.0)
+	val targets = listOf(0.0, 290.0, 485.0, 710.0, 930.0)
 	val maxLevel get() = targets.size
 	var level = 0
 		set(value) {

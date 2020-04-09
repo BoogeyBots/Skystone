@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.utils.waitForStartFixed
 @Autonomous(name = "AutoSenzori", group = "TEST")
 @Disabled
 class AutoTestSenzori : BBLinearOpMode() {
-    override val robot = Robot(this, setOf(Mecanum(this),  Arm(this), ColorSensorModule(this), DistanceSensorModule(this)))
+    override val robot = Robot(this, setOf(Mecanum(this),  ColorSensorModule(this), DistanceSensorModule(this)))
     val color = get<ColorSensorModule>()
     val distance = get<DistanceSensorModule>()
     var sau = ""

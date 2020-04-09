@@ -35,7 +35,7 @@ class ColorSensorModule(override val opMode: OpMode) : RobotModule {
 	fun IsSkystone(): String {
 		var sau = ""
 
-		if(frac() > 2 && frac() < 5) sau = "stone"
+		if(frac() in 3..4) sau = "stone"
 		else if (frac() <= 1 ) sau = "skystone"
 
 		return sau

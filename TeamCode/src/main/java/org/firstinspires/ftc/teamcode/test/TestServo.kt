@@ -22,7 +22,7 @@ class TestServo : BBLinearOpMode() {
 
 	override fun runOpMode() {
 		val servoMod = robot.modules.first()
-		servoMod.components["servo"] = hardwareMap.get(Servo::class.java, "servolinear")
+		servoMod.components["servo"] = hardwareMap.get(Servo::class.java, "servocapstone")
 		val servo = get<TestModule>().get<Servo>("servo")
 		servo.position = 0.5
 

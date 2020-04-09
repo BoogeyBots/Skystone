@@ -7,9 +7,7 @@ import kotlin.reflect.jvm.kotlinFunction
 
 typealias Mecanum = MecanumDriveTrainModule
 typealias Holonomic = HolonomicDriveTrainModule
-typealias Camera = CameraModule
 typealias Hook = HookModule
-typealias Arm = ArmModule
 typealias Lift = LiftModule
 typealias Intake = IntakeModule
 typealias Output = OutputModule
