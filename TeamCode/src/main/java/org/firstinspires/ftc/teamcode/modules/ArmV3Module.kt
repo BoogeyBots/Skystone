@@ -4,7 +4,6 @@ import android.os.SystemClock.sleep
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.HardwareDevice
 import com.qualcomm.robotcore.hardware.Servo
-import org.firstinspires.ftc.teamcode.Arm
 
 
 class ArmV3Module(override val opMode: OpMode) : RobotModule {
